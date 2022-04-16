@@ -8,7 +8,7 @@
 void uart_init(void);
 
 /* Macro to control UART ability to receive and send data. */
-#define uart_enable()   (UCSR0B = _BV(TXEN0) | _BV(RXEN0))
+#define uart_enable()   (UCSR0B = _BV(TXEN0) | _BV(RXEN0) | _BV(RXCIE0))
 #define uart_disable()  (UCSR0B = 0)
 
 void uart_send_byte(uint8_t b);

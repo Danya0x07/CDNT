@@ -4,25 +4,25 @@
 
 static char strbuffer[17];
 
-void serial_send_char(char c)
+void serial_print_char(char c)
 {
     uart_send_byte(c);
 }
 
-void serial_send_str(const char *s)
+void serial_print_str(const char *s)
 {
     while (*s)
         uart_send_byte(*s++);
 }
 
-void serial_send_dec(int16_t n)
+void serial_print_dec(int16_t n)
 {
-    serial_send_str(itoa(n, strbuffer, 10));
+    serial_print_str(itoa(n, strbuffer, 10));
 }
 
-void serial_send_hex(int16_t n)
+void serial_print_hex(int16_t n)
 {
-    serial_send_str(itoa(n, strbuffer, 16));
+    serial_print_str(itoa(n, strbuffer, 16));
 }
 
 

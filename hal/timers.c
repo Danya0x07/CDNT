@@ -25,7 +25,10 @@ ISR(TIMER2_COMPA_vect)
 
 uint32_t ms_passed(void)
 {
-    return milliseconds_passed;
+    TIMSK2 = 0;
+    uint32_t ms = milliseconds_passed;
+    TIMSK2 = _BV(OCIE2A);
+    return ms;
 }
 
 void ms_wait(uint32_t ms)

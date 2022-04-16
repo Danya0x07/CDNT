@@ -13,6 +13,18 @@
 #define BUTTONS_CS  2
 #define BUTTONS_PL  1
 
+void shiftreg_init(void)
+{
+    gpio_set_mode(DRAWINGS_GPIO, DRAWINGS_CS, GPIO_OUTPUT);
+    gpio_set_mode(LAMPS_GPIO, LAMPS_CS, GPIO_OUTPUT);
+    gpio_set_mode(BUTTONS_GPIO, BUTTONS_CS, GPIO_OUTPUT);
+    gpio_set_mode(BUTTONS_GPIO, BUTTONS_PL, GPIO_OUTPUT);
+
+    uint8_t zeros[6] = {0};
+    shiftreg_write_lamps(zeros);
+    shiftreg_write_drawings(zeros);
+}
+
 void shiftreg_write_lamps(uint8_t content[static 4])
 {
     gpio_write_low(LAMPS_GPIO, LAMPS_CS);
