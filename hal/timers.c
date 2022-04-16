@@ -9,6 +9,7 @@ void timers_init(void)
 {
     // Timer0 for meander.
     TCCR0A = _BV(COM0A0) | _BV(WGM01);  // Toggle channel A, CTC mode.
+    DDRD |= _BV(PD6);
 
     // Timer2 for milliseconds.
     TCCR2A = _BV(WGM21);  // CTC mode

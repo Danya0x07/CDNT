@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// Initialize all needed timers.
+// Initialize timers managment subsystem.
 void timers_init(void);
 
 // Return milliseconds passed from startup.
