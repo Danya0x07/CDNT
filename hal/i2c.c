@@ -14,7 +14,7 @@ static void i2c_start(uint8_t addr, uint8_t direction)
     TWCR = _BV(TWINT) | _BV(TWSTA) | _BV(TWEN);
     loop_until_bit_is_set(TWCR, TWINT);
 
-    TWDR = addr & 0xFE | direction & 0x01;
+    TWDR = (addr & 0xFE) | (direction & 0x01);
     TWCR = _BV(TWINT) | _BV(TWEN);
     loop_until_bit_is_set(TWCR, TWINT);
 }

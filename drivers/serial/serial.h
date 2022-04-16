@@ -10,6 +10,6 @@ void serial_send_dec(int16_t n);
 void serial_send_hex(int16_t n);
 
 bool serial_line_received(void);
-void serial_read_line(char *buff);
+uint8_t serial_read_line(char *buff);
 
 #endif  // _SERIAL_H
