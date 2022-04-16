@@ -1,7 +1,7 @@
 #ifndef _HAL_TIMERS_H
 #define _HAL_TIMERS_H
 
-#include <avr/io.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 // Initialize all needed timers.

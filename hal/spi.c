@@ -1,4 +1,5 @@
 #include "spi.h"
+#include <avr/io.h>
 #include <stddef.h>
 
 #define DD_SPI  DDRB

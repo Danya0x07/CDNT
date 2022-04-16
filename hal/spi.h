@@ -1,7 +1,7 @@
 #ifndef _HAL_SPI_H
 #define _HAL_SPI_H
 
-#include <avr/io.h>
+#include <stdint.h>
 
 void spi_init(void);
 uint8_t spi_transfer_byte(uint8_t b);

@@ -1,7 +1,7 @@
 #ifndef _HAL_ADC_H
 #define _HAL_ADC_H
 
-#include <avr/io.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 void adc_init(void);

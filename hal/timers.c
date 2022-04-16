@@ -1,4 +1,5 @@
 #include "timers.h"
+#include <avr/io.h>
 #include <avr/interrupt.h>
 
 static volatile uint32_t milliseconds_passed = 0;
