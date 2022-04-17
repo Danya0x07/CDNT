@@ -4,6 +4,7 @@
 
 static volatile uint32_t milliseconds_passed = 0;
 static volatile uint16_t cycles_left = 0;
+static volatile bool emitting = false;
 
 void timers_init(void)
 {
@@ -59,6 +60,7 @@ void meander_start(uint16_t freq)
     }
     TCCR0B = i + 1;  // corresponding bit mask (0b1..0b101)
     OCR0A = (uint8_t)regvalue;
+    emitting = true;
 }
 
 void meander_stop(void)
@@ -67,6 +69,7 @@ void meander_stop(void)
     TIMSK0 = 0;
     cycles_left = 0;
     PORTD &= ~_BV(PD6);
+    emitting = false;
 }
 
 void meander_emit(uint16_t freq, uint16_t duration)
@@ -77,7 +80,7 @@ void meander_emit(uint16_t freq, uint16_t duration)
      * So the formuls for cycles left will be:
      *      (2 * freq(Hz)) * duration(ms) / 1000 (ms)
      */
-    cycles_left = freq * duration / 500;
+    cycles_left = (uint32_t)freq * duration / 500;
     TIMSK0 = _BV(OCIE0A);
 }
 
@@ -90,5 +93,5 @@ ISR(TIMER0_COMPA_vect)
 
 bool meander_emitting(void)
 {
-    return !!cycles_left;
+    return emitting;
 }

@@ -102,6 +102,31 @@ void test_serial_receiving(void)
     }
 }
 
+void test_buzzer_playing(void)
+{
+    serial_print_str("Testing buzzer!\n");
+
+    meander_start(440);
+    ms_wait(1000);
+    meander_stop();
+
+    uint32_t now = 0;
+
+    for (uint16_t f = 200; f < 2001; f += 200) {
+        serial_print_str("\n---------\n");
+        serial_print_dec(f);
+        serial_print_str(" (Hz)\n");
+        meander_emit(f, 1000);
+        while (meander_emitting()) {
+            if (ms_passed() - now >= 200) {
+                serial_print_char('.');
+                now = ms_passed();
+            }
+        }
+    }
+    serial_print_str("\bDone\n");
+}
+
 int main(void)
 {
     system_init();
@@ -116,6 +141,7 @@ int main(void)
         case 'b': test_buttons();   break;
         case 'j': test_joystick();  break;
         case 's': test_serial_receiving();  break;
+        case 'z': test_buzzer_playing();    break;
     }
 
     for (;;) {}
