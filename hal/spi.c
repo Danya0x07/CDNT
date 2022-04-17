@@ -12,7 +12,7 @@ void spi_init(void)
 {
     DD_SPI |= MOSI | SCK | SS;
     DD_SPI &= ~MISO;
-    SPCR = _BV(SPE) | _BV(MSTR)|(1<<SPR1)|(1<<SPR0);  // mode 0, 1/4 from Fosc, MSB first.
+    SPCR = _BV(SPE) | _BV(MSTR);  // mode 0, 1/4 from Fosc, MSB first.
 }
 
 uint8_t spi_transfer_byte(uint8_t b)

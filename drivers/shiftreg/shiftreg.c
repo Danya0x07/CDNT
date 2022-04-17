@@ -48,7 +48,7 @@ uint8_t shiftreg_read_buttons(void)
 
     uint8_t content;
     gpio_write_low(BUTTONS_GPIO, BUTTONS_CS);
-    content = spi_transfer_byte(0);
+    content = spi_transfer_byte(0) & 0x7F;  // pin 7 unconnected
     gpio_write_high(BUTTONS_GPIO, BUTTONS_CS);
     return content;
 }
