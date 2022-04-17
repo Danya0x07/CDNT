@@ -35,6 +35,7 @@ void test_lamps()
             ms_wait(500);
         }
     }
+    serial_print_str("\nDone!\n");
 }
 
 void test_drawings()
@@ -52,6 +53,7 @@ void test_drawings()
             ms_wait(500);
         }
     }
+    serial_print_str("\nDone!\n");
 }
 
 void test_buttons(void)
@@ -124,7 +126,7 @@ void test_buzzer_playing(void)
             }
         }
     }
-    serial_print_str("\bDone\n");
+    serial_print_str("\nDone!\n");
 }
 
 int main(void)
