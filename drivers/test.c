@@ -1,23 +1,29 @@
+#include <stdlib.h>
+
 #include <avr/interrupt.h>
 
 #include <hal/adc.h>
 #include <hal/spi.h>
+#include <hal/i2c.h>
 #include <hal/timers.h>
 #include <hal/uart.h>
 
 #include <joystick.h>
 #include <serial.h>
 #include <shiftreg.h>
+#include <ssd1306.h>
 
 void system_init(void)
 {
     adc_init();
     spi_init();
+    i2c_init();
     timers_init();
     uart_init();
     sei();
 
     shiftreg_init();
+    ssd1306_init();
 }
 
 void test_lamps()
@@ -129,6 +135,24 @@ void test_buzzer_playing(void)
     serial_print_str("\nDone!\n");
 }
 
+void test_oled_display(void)
+{
+    serial_print_str("Testing OLED display!\n");
+
+    //ssd1306_set_cursor(0, 0);
+    ssd1306_begin_write();
+    for (uint16_t i = 0; i < 128 * 8; i++) {
+        ssd1306_write_byte(0xAA & rand());
+    }
+    ssd1306_end_write();
+    ms_wait(3000);
+    ssd1306_display_off();
+    ms_wait(3000);
+    ssd1306_display_on();
+
+    ssd1306_start_scrolling();
+}
+
 int main(void)
 {
     system_init();
@@ -144,6 +168,7 @@ int main(void)
         case 'j': test_joystick();  break;
         case 's': test_serial_receiving();  break;
         case 'z': test_buzzer_playing();    break;
+        case 't': test_oled_display(); break;
     }
 
     for (;;) {}

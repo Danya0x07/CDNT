@@ -1,15 +1,13 @@
 #include "i2c.h"
 #include <avr/io.h>
 
-#define I2C_DIRECTION_TX    0
-#define I2C_DIRECTION_RX    1
-
 void i2c_init(void)
 {
-    TWBR = 12; // 400 kHz
+    TWSR = 0;
+    TWBR = ((F_CPU / 400000) - 16) >> 1; // 400 kHz
 }
 
-static void i2c_start(uint8_t addr, uint8_t direction)
+void i2c_start(uint8_t addr, uint8_t direction)
 {
     TWCR = _BV(TWINT) | _BV(TWSTA) | _BV(TWEN);
     loop_until_bit_is_set(TWCR, TWINT);
@@ -19,18 +17,23 @@ static void i2c_start(uint8_t addr, uint8_t direction)
     loop_until_bit_is_set(TWCR, TWINT);
 }
 
-static void i2c_stop(void)
+void i2c_stop(void)
 {
     TWCR = _BV(TWINT) | _BV(TWSTO) | _BV(TWEN);
+    loop_until_bit_is_clear(TWCR, TWSTO);
 }
 
-static void i2c_write(const uint8_t *data, uint8_t len)
+void i2c_write_byte(uint8_t b)
 {
-    while (len--) {
-        TWDR = *data++;
-        TWCR = _BV(TWINT) | _BV(TWEN);
-        loop_until_bit_is_set(TWCR, TWINT);
-    }
+    TWDR = b;
+    TWCR = _BV(TWINT) | _BV(TWEN);
+    loop_until_bit_is_set(TWCR, TWINT);
+}
+
+static void i2c_write(const uint8_t *data, uint16_t len)
+{
+    while (len--)
+        i2c_write_byte(*data++);
 }
 
 static void i2c_read(uint8_t *data, uint8_t len)
@@ -45,7 +48,7 @@ static void i2c_read(uint8_t *data, uint8_t len)
     }
 }
 
-void i2c_write_bytes(uint8_t addr, const uint8_t *data, uint8_t len, 
+void i2c_write_bytes(uint8_t addr, const uint8_t *data, uint16_t len, 
                      uint8_t flags)
 {
     if (!(flags & I2C_NOSTART))
@@ -55,7 +58,7 @@ void i2c_write_bytes(uint8_t addr, const uint8_t *data, uint8_t len,
         i2c_stop();
 }
 
-void i2c_read_bytes(uint8_t addr, uint8_t *data, uint8_t len, 
+void i2c_read_bytes(uint8_t addr, uint8_t *data, uint16_t len, 
                     uint8_t flags)
 {
     if (!(flags & I2C_NOSTART))
