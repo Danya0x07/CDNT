@@ -12,6 +12,7 @@
 #include <serial.h>
 #include <shiftreg.h>
 #include <ssd1306.h>
+#include <st7735.h>
 
 void system_init(void)
 {
@@ -24,6 +25,7 @@ void system_init(void)
 
     shiftreg_init();
     ssd1306_init();
+    st7735_init();
 }
 
 void test_lamps()
@@ -41,7 +43,6 @@ void test_lamps()
             ms_wait(500);
         }
     }
-    serial_print_str("\nDone!\n");
 }
 
 void test_drawings()
@@ -59,7 +60,6 @@ void test_drawings()
             ms_wait(500);
         }
     }
-    serial_print_str("\nDone!\n");
 }
 
 void test_buttons(void)
@@ -132,14 +132,12 @@ void test_buzzer_playing(void)
             }
         }
     }
-    serial_print_str("\nDone!\n");
 }
 
 void test_oled_display(void)
 {
     serial_print_str("Testing OLED display!\n");
 
-    //ssd1306_set_cursor(0, 0);
     ssd1306_begin_write();
     for (uint16_t i = 0; i < 128 * 8; i++) {
         ssd1306_write_byte(0xAA & rand());
@@ -151,6 +149,40 @@ void test_oled_display(void)
     ssd1306_display_on();
 
     ssd1306_start_scrolling();
+}
+
+void test_tft_display(void)
+{
+    serial_print_str("Testing TFT display!\n");
+
+    st7735_set_window(10, 10, ST7735_MAX_X - 20, ST7735_MAX_Y - 30);
+
+    uint16_t color = 0xFFFF;
+    st7735_start_ram_write();
+    do {
+        st7735_write_pixel(color--);
+    } while (color);
+    ms_wait(2000);
+    st7735_display_off();
+    ms_wait(2000);
+    st7735_display_on();
+
+    for (uint8_t i = 0; i < 5; i++) {
+        ms_wait(2000);
+        st7735_set_inverse(i & 1);
+    }
+    ms_wait(6000);
+    meander_emit(440, 100);
+    st7735_set_gamma_curve(ST7735_GAMMA_1_0);
+    ms_wait(6000);
+    meander_emit(440, 100);
+    st7735_set_gamma_curve(ST7735_GAMMA_1_8);
+    ms_wait(6000);
+    meander_emit(440, 100);
+    st7735_set_gamma_curve(ST7735_GAMMA_2_2);
+    ms_wait(6000);
+    meander_emit(440, 100);
+    st7735_set_gamma_curve(ST7735_GAMMA_2_5);
 }
 
 int main(void)
@@ -169,7 +201,9 @@ int main(void)
         case 's': test_serial_receiving();  break;
         case 'z': test_buzzer_playing();    break;
         case 't': test_oled_display(); break;
+        case 'D': test_tft_display(); break;
     }
+    serial_print_str("\nDone!\n");
 
     for (;;) {}
 }
