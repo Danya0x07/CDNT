@@ -1,6 +1,5 @@
 #include <stdlib.h>
-
-#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 #include <hal/adc.h>
 #include <hal/spi.h>
@@ -14,19 +13,10 @@
 #include <ssd1306.h>
 #include <st7735.h>
 
-void system_init(void)
-{
-    adc_init();
-    spi_init();
-    i2c_init();
-    timers_init();
-    uart_init();
-    sei();
+#include <gfx.h>
 
-    shiftreg_init();
-    ssd1306_init();
-    st7735_init();
-}
+#include <init.h>
+#include <_test.h>
 
 void test_lamps()
 {
@@ -155,7 +145,7 @@ void test_tft_display(void)
 {
     serial_print_str("Testing TFT display!\n");
 
-    st7735_set_window(10, 10, ST7735_MAX_X - 20, ST7735_MAX_Y - 30);
+    st7735_set_window(10, 10, 100, 100);
 
     uint16_t color = 0xFFFF;
     st7735_start_ram_write();
@@ -171,23 +161,39 @@ void test_tft_display(void)
         ms_wait(2000);
         st7735_set_inverse(i & 1);
     }
-    ms_wait(6000);
-    meander_emit(440, 100);
-    st7735_set_gamma_curve(ST7735_GAMMA_1_0);
-    ms_wait(6000);
-    meander_emit(440, 100);
-    st7735_set_gamma_curve(ST7735_GAMMA_1_8);
-    ms_wait(6000);
-    meander_emit(440, 100);
-    st7735_set_gamma_curve(ST7735_GAMMA_2_2);
-    ms_wait(6000);
-    meander_emit(440, 100);
-    st7735_set_gamma_curve(ST7735_GAMMA_2_5);
+}
+
+void test_graphics(void)
+{
+    static const PROGMEM uint8_t bitmap[8] = {0xF0, 0xF0, 0xF0, 0xFF, 0xFF, 0xF0, 0xF0, 0xF0};
+    struct gfx_image img = {
+        .bitmap = bitmap,
+        .width = 8,
+        .height = 8
+    };
+    
+    serial_print_str("Testing TFT display!\n");
+
+    gfx_clear();
+    ms_wait(2000);
+    gfx_draw_image(80, 110, &img);
+    gfx_draw_rect(15, 30, 6, 3);
+    gfx_draw_frame(30, 15, 20, 15, 5);
+    gfx_print_txt(80, 2, "the");
+
+    gfx_set_color(GFX_COLOR_RED, GFX_COLOR_BLUE);
+    gfx_set_scale(GFX_SCALE_X3);
+    gfx_print_txt(10, 40, test_msg1);
+
+    gfx_set_color(GFX_COLOR_BLACK, GFX_COLOR_YELLOW);
+    gfx_set_scale(GFX_SCALE_X2);
+    gfx_print_txt(40, 80, test_msg2);
 }
 
 int main(void)
 {
-    system_init();
+    init_hal();
+    init_drivers();
 
     serial_print_str("What are we going to test?\t");
     while (uart_rx_buffer_empty()) {}
@@ -202,6 +208,7 @@ int main(void)
         case 'z': test_buzzer_playing();    break;
         case 't': test_oled_display(); break;
         case 'D': test_tft_display(); break;
+        case 'G': test_graphics(); break;
     }
     serial_print_str("\nDone!\n");
 

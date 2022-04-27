@@ -31,6 +31,11 @@
 #define COLMOD_RGB565   5
 #define COLMOD_RGB666   6
 
+#define GAMMA_2_2   1
+#define GAMMA_1_8   2
+#define GAMMA_2_5   4
+#define GAMMA_1_0   8
+
 static void send_cmd(uint8_t cmd)
 {
     gpio_write_low(DRIVER_GPIO, DRIVER_DC);
@@ -82,23 +87,27 @@ void st7735_init(void)
     send_data(0x00);
     send_data(0x0F);
 
+    // Gamma correction
+    send_cmd(CMD_GAMSET);
+    send_data(GAMMA_2_2);
+
     // Enable display
     send_cmd(CMD_DISPON);
 }
 
-void st7735_set_window(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1)
+void st7735_set_window(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
 {
     send_cmd(CMD_CASET);
     send_data(0);
-    send_data(x0);
+    send_data(x);
     send_data(0);
-    send_data(x1);
+    send_data(x + w - 1);
 
     send_cmd(CMD_RASET);
     send_data(0);
-    send_data(y0);
+    send_data(y);
     send_data(0);
-    send_data(y1);
+    send_data(y + h - 1);
 }
 
 void st7735_start_ram_write(void)
@@ -110,12 +119,6 @@ void st7735_write_pixel(uint16_t color)
 {
     send_data((uint8_t)(color >> 8));
     send_data((uint8_t)color);
-}
-
-void st7735_set_gamma_curve(enum st7735_gamma_curve curve)
-{
-    send_cmd(CMD_GAMSET);
-    send_data(curve);
 }
 
 void st7735_display_off(void)
