@@ -14,6 +14,7 @@
 #include <st7735.h>
 
 #include <gfx.h>
+#include <music.h>
 
 #include <init.h>
 #include <_test.h>
@@ -190,6 +191,20 @@ void test_graphics(void)
     gfx_print_txt(40, 80, test_msg2);
 }
 
+void test_music(void)
+{
+    serial_print_str("Testing TFT display!\n");
+    music_play(M_TR1);
+    for (uint32_t now = ms_passed(); ms_passed() - now < 600;) {
+        music_update();
+    }
+    music_stop();
+    music_play(M_TR1);
+    while (music_playing()) {
+        music_update();
+    }
+}
+
 int main(void)
 {
     init_hal();
@@ -209,6 +224,7 @@ int main(void)
         case 't': test_oled_display(); break;
         case 'D': test_tft_display(); break;
         case 'G': test_graphics(); break;
+        case 'm': test_music(); break;
     }
     serial_print_str("\nDone!\n");
 
