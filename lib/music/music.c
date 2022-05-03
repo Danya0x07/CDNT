@@ -1,55 +1,48 @@
 #include "music.h"
 #include <avr/pgmspace.h>
 #include <hal/timers.h>
+#include <stddef.h>
 
-static const PROGMEM uint16_t track_1[][2] = {
-    {400, 800}, {900, 600}, {400, 800}, {640, 200}, {700, 600},
-};
-
-struct track {
-    const uint16_t (*notes)[2];
-    const uint8_t len;
-};
-
-static struct track tracks[M_TRACKS_NUMBER] = {
-    {track_1, sizeof(track_1) / sizeof(track_1[0])},
-};
-
-static enum music_track current_track = M_SILENCE;
+static const struct music_track *current_track = NULL;
 static uint8_t note_idx = 0;
 
-void music_play(enum music_track track)
+void music_play(const struct music_track *track)
 {
     music_stop();
     current_track = track;
 }
 
-enum music_track music_playing(void)
+bool music_playing(void)
 {
-    return current_track != M_SILENCE || meander_emitting();
+    return current_track || meander_emitting();
 }
 
 void music_stop(void)
 {
     meander_stop();
-    current_track = M_SILENCE;
+    current_track = NULL;
     note_idx = 0;
 }
 
 void music_update(void)
-{
-    if (current_track == M_SILENCE)
-        return;
-    
-    if (!meander_emitting()) {
-        struct track *tr = &tracks[current_track];
-        if (note_idx > tr->len - 1) { // last note ended
+{ 
+    if (current_track && !meander_emitting()) {
+        if (note_idx >= current_track->len) { // last note ended
             music_stop();
         } else {
-            uint16_t note = pgm_read_word(&tr->notes[note_idx][0]);
-            uint16_t duration = pgm_read_word(&tr->notes[note_idx][1]);
-            meander_emit(note, duration);
-            note_idx++;
+            static uint32_t now;
+            uint16_t note = pgm_read_word(&current_track->notes[note_idx][0]);
+            uint16_t duration = pgm_read_word(&current_track->notes[note_idx][1]);
+            if (note) {
+                meander_emit(note, duration);
+                now = 0;
+                note_idx++;
+            } else {
+                if (!now)
+                    now = ms_passed();
+                if (ms_passed() - now >= duration)
+                    note_idx++;
+            }
         }          
     }
 }

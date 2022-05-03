@@ -13,7 +13,7 @@
 #include <ssd1306.h>
 #include <st7735.h>
 
-#include <gfx.h>
+#include <graphics.h>
 #include <music.h>
 
 #include <init.h>
@@ -193,13 +193,19 @@ void test_graphics(void)
 
 void test_music(void)
 {
+    static const PROGMEM uint16_t track_1[][2] = {
+        {400, 800}, {900, 600}, {400, 800}, {0, 1000}, {640, 200}, {700, 600},
+    };
+
+    static const struct music_track tr1 = {track_1, sizeof(track_1) / sizeof(track_1[0])};
+
     serial_print_str("Testing TFT display!\n");
-    music_play(M_TR1);
+    music_play(&tr1);
     for (uint32_t now = ms_passed(); ms_passed() - now < 600;) {
         music_update();
     }
     music_stop();
-    music_play(M_TR1);
+    music_play(&tr1);
     while (music_playing()) {
         music_update();
     }

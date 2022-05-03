@@ -1,4 +1,4 @@
-#include "gfx.h"
+#include "graphics.h"
 #include <st7735.h>
 #include <avr/pgmspace.h>
 

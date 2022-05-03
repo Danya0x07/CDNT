@@ -2,8 +2,8 @@
  * Working with TFT display. No more flexibility than needed.
  */
 
-#ifndef _GFX_H
-#define _GFX_H
+#ifndef _GRAPHICS_H
+#define _GRAPHICS_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -50,4 +50,4 @@ void gfx_draw_image(uint8_t x, uint8_t y, const struct gfx_image *img);
 void gfx_print_ch(uint8_t x, uint8_t y, char ch);
 void gfx_print_txt(uint8_t x, uint8_t y, const char *txt);
 
-#endif // _GFX_H
+#endif // _GRAPHICS_H

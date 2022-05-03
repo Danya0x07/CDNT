@@ -1,6 +1,6 @@
 /** Tiny music player submodule.
  * No difference between short sounds and long melodies.
- * Asyncronous note changing.
+ * Asyncronous note changing. Blank notes supported.
  */
 
 #ifndef _MUSIC_H
@@ -9,22 +9,21 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// Status codes.
-#define MUSIC_OK    0
-#define MUSIC_ERROR (-1)
-
-enum music_track {
-    M_TR1,
-    M_TRACKS_NUMBER,
-    M_SILENCE = 255
+/* Music track structure.
+ * `notes` is an array of couples of uint16_t's, each couple is
+ * a note and it's duration respectively. `notes` must be stored in Flash.
+ */
+struct music_track {
+    const uint16_t (*notes)[2];
+    uint8_t len;
 };
 
 /* Start playing given track.
  * If other track is being played, it is interrupted. */
-void music_play(enum music_track track);
+void music_play(const struct music_track *track);
 
-// What is being played now.
-enum music_track music_playing(void);
+// Is something being played now.
+bool music_playing(void);
 
 // Stop playing
 void music_stop(void);
