@@ -199,7 +199,7 @@ void test_music(void)
 
     static const struct music_track tr1 = {track_1, sizeof(track_1) / sizeof(track_1[0])};
 
-    serial_print_str("Testing TFT display!\n");
+    serial_print_str("Testing music!\n");
     music_play(&tr1);
     for (uint32_t now = ms_passed(); ms_passed() - now < 600;) {
         music_update();
