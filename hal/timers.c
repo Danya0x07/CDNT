@@ -8,8 +8,7 @@ static volatile bool emitting = false;
 
 void timers_init(void)
 {
-    // Timer0 for meander.
-    TCCR0A = _BV(COM0A0) | _BV(WGM01);  // Toggle channel A, CTC mode.
+    // Timer0 output pin for meander.
     DDRD |= _BV(PD6);
 
     // Timer2 for milliseconds.
@@ -58,6 +57,7 @@ void meander_start(uint16_t freq)
             break;
         }
     }
+    TCCR0A = _BV(COM0A0) | _BV(WGM01);
     TCCR0B = i + 1;  // corresponding bit mask (0b1..0b101)
     OCR0A = (uint8_t)regvalue;
     emitting = true;
@@ -65,8 +65,7 @@ void meander_start(uint16_t freq)
 
 void meander_stop(void)
 {
-    TCCR0B = 0;
-    TIMSK0 = 0;
+    TCCR0A = TCCR0B = TIMSK0 = 0;
     cycles_left = 0;
     PORTD &= ~_BV(PD6);
     emitting = false;

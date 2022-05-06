@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <avr/pgmspace.h>
 
 #include <hal/adc.h>
@@ -193,21 +194,54 @@ void test_graphics(void)
 
 void test_music(void)
 {
-    static const uint16_t track_1[][2] = {
-        {400, 800}, {900, 600}, {400, 800}, {0, 1000}, {640, 200}, {700, 600},
-    };
+    char buffer[40];
+    char *pch;
+    uint16_t notes[5][2] = {{400, 800}, {900, 600}, {400, 800}, {0, 1000}, {640, 200}};
+    uint8_t k;
 
-    static const struct music_track tr1 = {track_1, sizeof(track_1) / sizeof(track_1[0])};
-
+    struct music_track track = {&notes[0], 5, false};
+    
     serial_print_str("Testing music!\n");
-    music_play(&tr1);
-    for (uint32_t now = ms_passed(); ms_passed() - now < 600;) {
+
+    music_play(&track);
+    for (uint32_t now = ms_passed(); ms_passed() - now < 600;)
         music_update();
-    }
     music_stop();
-    music_play(&tr1);
-    while (music_playing()) {
+    ms_wait(500);
+    music_play(&track);
+    while (music_playing())
         music_update();
+
+    for (;;) {
+        serial_print_str("\nEnter some notes and durations: ");
+        while (!serial_line_received())
+            ms_wait(100);
+        serial_read_line(buffer);
+        k = 0;
+        pch = strtok(buffer, " ");
+        while (pch && k < 5) {
+            notes[k][0] = atoi(pch);
+            pch = strtok(NULL, " ");
+            if (!pch)
+                return;
+                
+            notes[k][1] = atoi(pch);
+            pch = strtok(NULL, " ");
+            if (!notes[k][1])
+                return;
+
+            serial_print_dec(notes[k][0]);
+            serial_print_char(' ');
+            serial_print_dec(notes[k][1]);
+            serial_print_char(' ');
+            k++;
+        }
+        track.len = k;
+        serial_print_str("Track len: ");
+        serial_print_dec(k);
+        music_play(&track);
+        while (music_playing())
+            music_update();
     }
 }
 
