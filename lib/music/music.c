@@ -31,8 +31,16 @@ void music_update(void)
             music_stop();
         } else {
             static uint32_t now;
-            uint16_t note = pgm_read_word(&current_track->notes[note_idx][0]);
-            uint16_t duration = pgm_read_word(&current_track->notes[note_idx][1]);
+            uint16_t note, duration;
+            
+            if (current_track->progmem) {
+                note = pgm_read_word(&current_track->notes[note_idx][0]);
+                duration = pgm_read_word(&current_track->notes[note_idx][1]);
+            } else {
+                note = current_track->notes[note_idx][0];
+                duration = current_track->notes[note_idx][1];
+            }
+            
             if (note) {
                 meander_emit(note, duration);
                 now = 0;
