@@ -194,9 +194,9 @@ void test_graphics(void)
 
 void test_music(void)
 {
-    char buffer[40];
+    char buffer[100];
     char *pch;
-    uint16_t notes[5][2] = {{400, 800}, {900, 600}, {400, 800}, {0, 1000}, {640, 200}};
+    uint16_t notes[10][2] = {{400, 800}, {900, 600}, {400, 800}, {0, 1000}, {640, 200}};
     uint8_t k;
 
     struct music_track track = {&notes[0], 5, false};
@@ -219,7 +219,7 @@ void test_music(void)
         serial_read_line(buffer);
         k = 0;
         pch = strtok(buffer, " ");
-        while (pch && k < 5) {
+        while (pch && k < 10) {
             notes[k][0] = atoi(pch);
             pch = strtok(NULL, " ");
             if (!pch)
