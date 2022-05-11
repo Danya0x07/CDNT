@@ -1,7 +1,7 @@
 #include <iproc.h>
 
 static const enum button_no btn_numbers[_BTNS_TOTAL] = 
-        {BTN_NO_2, BTN_NO_7, BTN_NO_5, BTN_NO_6, BTN_NO_4, BTN_NO_3, BTN_NO_1};
+        {BTN_2, BTN_7, BTN_5, BTN_6, BTN_4, BTN_3, BTN_1};
 
 enum joystick_event iproc_joystick(enum joystick_position pos)
 {
