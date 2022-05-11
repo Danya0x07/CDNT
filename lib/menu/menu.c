@@ -98,6 +98,10 @@ enum menu_reply menu_execute(enum menu_command cmd)
         } else {
             menu_set_current(current_menu->on_exit_next(current_menu));
         }
+
+    case MENU_RP_NOTHING:
+    default:
+        break;
     }
 
     return reply;

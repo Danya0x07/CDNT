@@ -63,32 +63,33 @@ struct music_track name##_track = { \
 DEFINE_TRACK(value_change, {330, 50});
 DEFINE_TRACK(cursor_move, {440, 50});
 DEFINE_TRACK(screen_transit, {660, 50});
-DEFINE_TRACK(intro, 800, 300, 1000, 150, 1200, 300, 1000, 150, 800, 300);
-DEFINE_TRACK(game_start, NOTE_F4, 800, NOTE_G4, 400, NOTE_GS4, 400, NOTE_CS5, 800, NOTE_C5, 800);
+DEFINE_TRACK(intro, {800, 300}, {1000, 150}, {1200, 300}, {1000, 150}, {800, 300});
+DEFINE_TRACK(game_start, {NOTE_F4, 800}, {NOTE_G4, 400}, {NOTE_GS4, 400}, {NOTE_CS5, 800}, {NOTE_C5, 800});
 DEFINE_TRACK(night_complete, 
-    NOTE_D4, 200, NOTE_G4, 800, 
-    NOTE_D4, 200, NOTE_A4, 800, 
-    NOTE_D4, 200, NOTE_A4, 400,
-    NOTE_C5, 200, NOTE_B4, 800);
+    {NOTE_D4, 200}, {NOTE_G4, 800}, 
+    {NOTE_D4, 200}, {NOTE_A4, 800}, 
+    {NOTE_D4, 200}, {NOTE_A4, 400},
+    {NOTE_C5, 200}, {NOTE_B4, 800});
 DEFINE_TRACK(game_over,
-    NOTE_GS4, 400, NOTE_G4, 400, NOTE_FS4, 800);
-DEFINE_TRACK(cam_switch, 200, 100);
-DEFINE_TRACK(flash, 2000, 100, 2000, 100, 2000, 200);
-DEFINE_TRACK(power_off, NOTE_GS5, 200, NOTE_DS5, 200, NOTE_GS4, 200, NOTE_AS4, 300);
-DEFINE_TRACK(lamps_on, NOTE_A4, 100, NOTE_E5, 100);
-DEFINE_TRACK(lamps_off, NOTE_E5, 100, NOTE_A4, 100);
+    {NOTE_GS4, 400}, {NOTE_G4, 400}, {NOTE_FS4, 800});
+DEFINE_TRACK(cam_switch, {200, 100});
+DEFINE_TRACK(cam_uv_switch, {1400, 100});
+DEFINE_TRACK(flash, {2000, 100}, {2000, 100}, {2000, 200});
+DEFINE_TRACK(power_off, {NOTE_GS5, 200}, {NOTE_DS5, 200}, {NOTE_GS4, 200}, {NOTE_AS4, 300});
+DEFINE_TRACK(lamps_on, {NOTE_A4, 100}, {NOTE_E5, 100});
+DEFINE_TRACK(lamps_off, {NOTE_E5, 100}, {NOTE_A4, 100});
 DEFINE_TRACK(irc_typing, 
-    400, 150, 0, 50, 
-    400, 70, 0, 50,
-    400, 70, 0, 50,
-    400, 150, 0, 50,
-    400, 70);
-DEFINE_TRACK(cam_nosignal, 100, 700);
-DEFINE_TRACK(screamer1, 1000, 200, 950, 200, 1000, 200, 950, 200, 1000, 200, 950, 200);
-DEFINE_TRACK(screamer2, 1600, 200, 1550, 200, 1600, 200, 1550, 200, 1600, 200, 1500, 200);
-DEFINE_TRACK(screamer3, 400, 200, 380, 200, 400, 200, 380, 200, 400, 200, 380, 200);
+    {400, 150}, {0, 50}, 
+    {400, 70}, {0, 50},
+    {400, 70}, {0, 50},
+    {400, 150}, {0, 50},
+    {400, 70});
+DEFINE_TRACK(cam_nosignal, {100, 700});
+DEFINE_TRACK(screamer1, {1000, 200}, {950, 200}, {1000, 200}, {950, 200}, {1000, 200}, {950, 200});
+DEFINE_TRACK(screamer2, {1600, 200}, {1550, 200}, {1600, 200}, {1550, 200}, {1600, 200}, {1500, 200});
+DEFINE_TRACK(screamer3, {400, 200}, {380, 200}, {400, 200}, {380, 200}, {400, 200}, {380, 200});
 DEFINE_TRACK(_melody, 
-    NOTE_C6, 200, NOTE_C6, 200,
-    NOTE_G5, 200, NOTE_C6, 200, NOTE_E6, 400,
-    NOTE_D6, 200, NOTE_D6, 200,
-    NOTE_G5, 200, NOTE_D6, 200, NOTE_C6, 400);
+    {NOTE_C6, 200}, {NOTE_C6, 200},
+    {NOTE_G5, 200}, {NOTE_C6, 200}, {NOTE_E6, 400},
+    {NOTE_D6, 200}, {NOTE_D6, 200},
+    {NOTE_G5, 200}, {NOTE_D6, 200}, {NOTE_C6, 400});

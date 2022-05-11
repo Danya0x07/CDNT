@@ -14,6 +14,7 @@ DECLARE_TRACK(game_start);
 DECLARE_TRACK(night_complete);
 DECLARE_TRACK(game_over);
 DECLARE_TRACK(cam_switch);
+DECLARE_TRACK(cam_uv_switch);
 DECLARE_TRACK(flash);
 DECLARE_TRACK(power_off);
 DECLARE_TRACK(lamps_on);
