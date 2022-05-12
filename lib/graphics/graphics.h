@@ -38,6 +38,7 @@ struct gfx_image {
 
 // Fill screen with background color.
 void gfx_clear(void);
+void gfx_clear_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
 void gfx_set_color(enum gfx_color fg, enum gfx_color bg);
 void gfx_set_scale(enum gfx_scale_factor scale);
 

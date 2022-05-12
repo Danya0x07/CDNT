@@ -206,12 +206,17 @@ static const uint8_t *get_character_bitmap(uint8_t c)
     return bitmap;
 }
 
+void gfx_clear_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
+{
+    st7735_set_window(x, y, w, h);
+    st7735_start_ram_write();
+    for (uint16_t i = 0; i < w * h; i++)
+        st7735_write_pixel(settings.background);
+}
+
 void gfx_clear(void)
 {
-    st7735_set_window(0, 0, ST7735_WIDTH, ST7735_HEIGHT);
-    st7735_start_ram_write();
-    for (uint16_t i = 0; i < ST7735_WIDTH * ST7735_HEIGHT; i++)
-        st7735_write_pixel(settings.background);
+    gfx_clear_rect(0, 0, ST7735_WIDTH, ST7735_HEIGHT);
 }
 
 void gfx_set_color(enum gfx_color fg, enum gfx_color bg)
@@ -282,8 +287,16 @@ void gfx_print_ch(uint8_t x, uint8_t y, char ch)
 
 void gfx_print_txt(uint8_t x, uint8_t y, const char *txt)
 {
-    while (*txt && x <= ST7735_MAX_X - CHAR_PLACE_WIDTH * settings.scale) {
-        gfx_print_ch(x, y, *txt++);
-        x += CHAR_PLACE_WIDTH * settings.scale;
+    while (y <= ST7735_MAX_X - CHAR_PLACE_HEIGHT * settings.scale) {
+        while (*txt && x <= ST7735_MAX_X - CHAR_PLACE_WIDTH * settings.scale) {
+            if (*txt == '\n') {
+                txt++;
+                break;
+            }
+            gfx_print_ch(x, y, *txt++);
+            x += CHAR_PLACE_WIDTH * settings.scale;
+        }
+        y += CHAR_PLACE_HEIGHT * settings.scale;
+        x = 0;
     }
 }

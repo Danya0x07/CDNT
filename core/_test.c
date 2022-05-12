@@ -174,22 +174,25 @@ void test_graphics(void)
         .height = 8
     };
     
-    serial_print_str("Testing TFT display!\n");
+    serial_print_str("Testing GFX library!\n");
 
     gfx_clear();
     ms_wait(2000);
-    gfx_draw_image(80, 110, &img);
-    gfx_draw_rect(15, 30, 6, 3);
-    gfx_draw_frame(30, 15, 20, 15, 5);
-    gfx_print_txt(80, 2, "the");
+    gfx_draw_image(150, 0, &img);
+    gfx_draw_rect(150, 10, 10, 6);
+    gfx_draw_frame(120, 24, 20, 15, 5);
+    gfx_print_txt(24, 103, "the MMMMMmm\nmmmm NNNNNN nnn e fghjkll ooo VVAASDFG");
 
     gfx_set_color(GFX_COLOR_RED, GFX_COLOR_BLUE);
     gfx_set_scale(GFX_SCALE_X3);
-    gfx_print_txt(10, 40, test_msg1);
+    gfx_print_txt(0, 0, test_msg1);
+    gfx_print_txt(8, 40, "Big and Long @");
 
     gfx_set_color(GFX_COLOR_BLACK, GFX_COLOR_YELLOW);
     gfx_set_scale(GFX_SCALE_X2);
-    gfx_print_txt(40, 80, test_msg2);
+    gfx_print_txt(20, 25, test_msg2);
+
+    gfx_clear_rect(140, 50, 10, 15);
 }
 
 void test_music(void)
