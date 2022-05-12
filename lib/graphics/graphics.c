@@ -287,13 +287,35 @@ void gfx_print_ch(uint8_t x, uint8_t y, char ch)
 
 void gfx_print_txt(uint8_t x, uint8_t y, const char *txt)
 {
+    char c;
+    
     while (y <= ST7735_MAX_X - CHAR_PLACE_HEIGHT * settings.scale) {
-        while (*txt && x <= ST7735_MAX_X - CHAR_PLACE_WIDTH * settings.scale) {
-            if (*txt == '\n') {
-                txt++;
+        while (x <= ST7735_MAX_X - CHAR_PLACE_WIDTH * settings.scale) {
+            c = *txt++;
+            if (c == '\n')
                 break;
-            }
-            gfx_print_ch(x, y, *txt++);
+            if (c == '\0')
+                return;
+            gfx_print_ch(x, y, c);
+            x += CHAR_PLACE_WIDTH * settings.scale;
+        }
+        y += CHAR_PLACE_HEIGHT * settings.scale;
+        x = 0;
+    }
+}
+
+void gfx_print_txt_f(uint8_t x, uint8_t y, const char *txt)
+{
+    char c;
+    
+    while (y <= ST7735_MAX_X - CHAR_PLACE_HEIGHT * settings.scale) {
+        while (x <= ST7735_MAX_X - CHAR_PLACE_WIDTH * settings.scale) {
+            c = pgm_read_byte(txt++);
+            if (c == '\n')
+                break;
+            if (c == '\0')
+                return;
+            gfx_print_ch(x, y, c);
             x += CHAR_PLACE_WIDTH * settings.scale;
         }
         y += CHAR_PLACE_HEIGHT * settings.scale;

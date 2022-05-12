@@ -190,7 +190,7 @@ void test_graphics(void)
 
     gfx_set_color(GFX_COLOR_BLACK, GFX_COLOR_YELLOW);
     gfx_set_scale(GFX_SCALE_X2);
-    gfx_print_txt(20, 25, test_msg2);
+    gfx_print_txt_f(20, 25, test_msg2);
 
     gfx_clear_rect(140, 50, 10, 15);
 }

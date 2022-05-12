@@ -50,5 +50,6 @@ void gfx_draw_frame(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t th);
 void gfx_draw_image(uint8_t x, uint8_t y, const struct gfx_image *img);
 void gfx_print_ch(uint8_t x, uint8_t y, char ch);
 void gfx_print_txt(uint8_t x, uint8_t y, const char *txt);
+void gfx_print_txt_f(uint8_t x, uint8_t y, const char *txt);
 
 #endif // _GRAPHICS_H
