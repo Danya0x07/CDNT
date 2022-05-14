@@ -7,15 +7,7 @@
 
 #include <avr/pgmspace.h>
 
-static void instrmenu_entrance_cb(struct menu *this)
-{
-    this->fields[0].value = this->fields[0].min;
-}
-
-static void instrmenu_value_change_cb(struct menu *this)
-{
-    music_play(&track_value_change);
-}
+#include "common.h"
 
 static struct menu *instrmenu_exit_prev_cb(struct menu *this)
 {
@@ -25,8 +17,7 @@ static struct menu *instrmenu_exit_prev_cb(struct menu *this)
 
 static struct menu *instrmenu_exit_next_cb(struct menu *this)
 {
-    extern struct menu main_menu;
-    return &main_menu;
+    return this;
 }
 
 static void instrmenu_view_init_cb(struct menu *this)
@@ -44,26 +35,20 @@ static void instrmenu_view_update_cb(struct menu *this)
     gfx_print_ch(71, 119, '1' + this->fields[0].value);
 }
 
-static void instrmenu_view_deinit_cb(struct menu *this)
-{
-    music_play(&track_screen_transit);
-    gfx_clear();
-}
-
 struct menu instr_menu = {
     .fields = (struct menu_field []) {
         {0, 0, 2, false},
     },
     .labels = (const char **)txt_instrmenu,
     .io = NULL,
-    .on_entrance = instrmenu_entrance_cb,
-    .on_value_change = instrmenu_value_change_cb,
+    .on_entrance = common_entrance_cb,
+    .on_value_change = common_value_change_cb,
     .on_cursor_move = NULL,
     .on_exit_next = instrmenu_exit_next_cb,
     .on_exit_prev = instrmenu_exit_prev_cb,
     .view_init = instrmenu_view_init_cb,
     .view_update = instrmenu_view_update_cb,
-    .view_deinit = instrmenu_view_deinit_cb,
+    .view_deinit = common_view_deinit_cb,
     .num_fields = 1,
     .num_labels = 3,
     .cursor = 0

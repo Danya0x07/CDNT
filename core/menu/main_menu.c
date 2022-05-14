@@ -7,15 +7,7 @@
 
 #include <avr/pgmspace.h>
 
-static void mainmenu_entrance_cb(struct menu *this)
-{
-    this->fields[0].value = this->fields[0].min;
-}
-
-static void mainmenu_value_change_cb(struct menu *this)
-{
-    music_play(&track_value_change);
-}
+#include "common.h"
 
 static struct menu *mainmenu_exit_prev_cb(struct menu *this)
 {
@@ -65,26 +57,20 @@ static void mainmenu_view_update_cb(struct menu *this)
     gfx_print_ch(0, 70 + 20 * this->fields[0].value, '>');
 }
 
-static void mainmenu_view_deinit_cb(struct menu *this)
-{
-    music_play(&track_screen_transit);
-    gfx_clear();
-}
-
 struct menu main_menu = {
     .fields = (struct menu_field []) {
         {0, 0, 1, false},
     },
     .labels = (const char **)txt_mainmenu,
     .io = NULL,
-    .on_entrance = mainmenu_entrance_cb,
-    .on_value_change = mainmenu_value_change_cb,
+    .on_entrance = common_entrance_cb,
+    .on_value_change = common_value_change_cb,
     .on_cursor_move = NULL,
     .on_exit_next = mainmenu_exit_next_cb,
     .on_exit_prev = mainmenu_exit_prev_cb,
     .view_init = mainmenu_view_init_cb,
     .view_update = mainmenu_view_update_cb,
-    .view_deinit = mainmenu_view_deinit_cb,
+    .view_deinit = common_view_deinit_cb,
     .num_fields = 1,
     .num_labels = 2,
     .cursor = 0

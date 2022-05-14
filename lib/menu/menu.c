@@ -90,13 +90,20 @@ enum menu_reply menu_execute(enum menu_command cmd)
         break;
     
     case MENU_RP_TRANSITED:
-        if (current_menu->view_deinit)
-            current_menu->view_deinit(current_menu);
-        
-        if (cmd == MENU_CMD_PREV) {
-            menu_set_current(current_menu->on_exit_prev(current_menu));
-        } else {
-            menu_set_current(current_menu->on_exit_next(current_menu));
+        {
+            struct menu *next;
+            
+            if (cmd == MENU_CMD_PREV) {
+                next = current_menu->on_exit_prev(current_menu);
+            } else {
+                next = current_menu->on_exit_next(current_menu);
+            }
+            if (next == current_menu)
+                break;
+
+            if (current_menu->view_deinit)
+                current_menu->view_deinit(current_menu);
+            menu_set_current(next);
         }
 
     case MENU_RP_NOTHING:
