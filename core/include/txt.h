@@ -3,6 +3,8 @@
 
 extern const char txt_ml_night[];
 extern const char txt_ml_pause[];
+extern const char txt_ml_hours[];
+extern const char txt_ml_attacks[];
 
 extern const char txt_gl_title[];
 extern const char txt_gl_subtitle[];

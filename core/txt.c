@@ -9,6 +9,9 @@ const PROGMEM char _txt_mi_exit[] = "Выйти";
 // Menu labels texts.
 const PROGMEM char txt_ml_night[] = "Ночь";
 const PROGMEM char txt_ml_pause[] = "Пауза";
+const PROGMEM char txt_ml_hours[] = "Час:";
+const PROGMEM char txt_ml_attacks[] = "Очки:";
+//                                     Score: 
 const PROGMEM char _txt_ml_instructions_p1[] = 
 //  |                          |    26 characters of size 1 per display line
     "  Используйте камеры наблю"

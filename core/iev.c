@@ -2,11 +2,20 @@
 #include <iproc.h>
 #include <joystick.h>
 #include <shiftreg.h>
+#include <hal/timers.h>
+
+#define JOYSTICK_POLL_PERIOD    50
 
 enum joystick_event iev_poll_joystick(void)
 {
-    enum joystick_position pos = joystick_get_position();
-    return iproc_joystick(pos);
+    static uint32_t now = 0;
+
+    if (ms_passed() - now >= JOYSTICK_POLL_PERIOD) {
+        enum joystick_position pos = joystick_get_position();
+        now = ms_passed();
+        return iproc_joystick(pos);
+    }
+    return JEV_NOTHING;
 }
 
 uint8_t iev_poll_buttons(void)
