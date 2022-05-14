@@ -1,4 +1,4 @@
-#include <menu.h>
+#include <menus.h>
 #include <txt.h>
 #include <game.h>
 #include <music.h>
@@ -11,7 +11,6 @@
 
 static struct menu *nightmenu_exit_prev_cb(struct menu *this)
 {
-    extern struct menu main_menu;
     return &main_menu;
 }
 
@@ -20,7 +19,7 @@ static struct menu *nightmenu_exit_next_cb(struct menu *this)
     struct game_input *ginp = this->io;
     ginp->action = NEW_GAME;
     ginp->night_no = this->fields[0].value;
-    return NULL;
+    return &pause_menu;
 }
 
 static void nightmenu_view_init_cb(struct menu *this)

@@ -3,6 +3,6 @@
 
 #include <menu.h>
 
-extern struct menu main_menu, night_menu, instr_menu;
+extern struct menu main_menu, night_menu, instr_menu, pause_menu;
 
 #endif // _CORE_MENUS_H

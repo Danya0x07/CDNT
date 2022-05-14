@@ -17,6 +17,7 @@ int main(void)
     init_drivers();
 
     night_menu.io = &ginp;
+    pause_menu.io = &ginp;
 
     menu_set_current(&main_menu);
     music_start(&track_intro);

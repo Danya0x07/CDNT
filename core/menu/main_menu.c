@@ -1,4 +1,4 @@
-#include <menu.h>
+#include <menus.h>
 #include <txt.h>
 #include <game.h>
 #include <music.h>
@@ -16,8 +16,6 @@ static struct menu *mainmenu_exit_prev_cb(struct menu *this)
 
 static struct menu *mainmenu_exit_next_cb(struct menu *this)
 {
-    extern struct menu instr_menu, night_menu;
-
     if (this->fields[0].value == 1) {
         return &instr_menu;
     } else {

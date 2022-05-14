@@ -1,4 +1,4 @@
-#include <menu.h>
+#include <menus.h>
 #include <txt.h>
 #include <game.h>
 #include <music.h>
@@ -11,7 +11,6 @@
 
 static struct menu *instrmenu_exit_prev_cb(struct menu *this)
 {
-    extern struct menu main_menu;
     return &main_menu;
 }
 
