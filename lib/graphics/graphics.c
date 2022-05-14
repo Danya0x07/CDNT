@@ -1,6 +1,8 @@
 #include "graphics.h"
 #include <st7735.h>
 #include <avr/pgmspace.h>
+#include <stdio.h>
+#include <string.h>
 
 static const PROGMEM uint8_t ascii_charset[][5] = {
     {0x00, 0x00, 0x00, 0x00, 0x00},  /* 20 SPACE */
@@ -321,4 +323,13 @@ void gfx_print_txt_f(uint8_t x, uint8_t y, const char *txt)
         y += CHAR_PLACE_HEIGHT * settings.scale;
         x = 0;
     }
+}
+
+uint8_t gfx_print_dec(uint8_t x, uint8_t y, int16_t n)
+{
+    static char buff[16];
+    snprintf(buff, 16, "%d", n);
+    uint8_t next_x = x + strlen(buff) * CHAR_PLACE_WIDTH * settings.scale;
+    gfx_print_txt(x, y, buff);
+    return next_x;
 }

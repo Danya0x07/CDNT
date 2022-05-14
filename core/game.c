@@ -20,5 +20,5 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
 void game_get_results(struct game_output *results)
 {
     results->attacks_repelled = 5;
-    results->hours_survived = 4;
+    results->hours_survived = 432;
 }
