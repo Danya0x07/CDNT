@@ -51,12 +51,12 @@
 #define NOTE_FS7 2960
 
 #define DEFINE_TRACK(name, ...) \
-static const PROGMEM uint16_t name##_notes[][2] = { \
+static const PROGMEM uint16_t notes_##name[][2] = { \
     __VA_ARGS__ \
 }; \
-struct music_track name##_track = { \
-    &name##_notes[0], \
-    sizeof(name##_notes) / sizeof(name##_notes[0]), \
+struct music_track track_##name = { \
+    &notes_##name[0], \
+    sizeof(notes_##name) / sizeof(notes_##name[0]), \
     true \
 }
 

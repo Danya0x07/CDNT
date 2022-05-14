@@ -6,7 +6,7 @@
 static const struct music_track *current_track = NULL;
 static uint8_t note_idx = 0;
 
-void music_play(const struct music_track *track)
+void music_start(const struct music_track *track)
 {
     music_stop();
     current_track = track;
@@ -22,6 +22,14 @@ void music_stop(void)
     meander_stop();
     current_track = NULL;
     note_idx = 0;
+}
+
+void music_play(const struct music_track *track)
+{
+    music_start(track);
+    while (music_playing())
+        music_update();
+    music_stop();
 }
 
 void music_update(void)

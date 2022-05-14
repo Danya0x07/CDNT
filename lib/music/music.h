@@ -21,13 +21,16 @@ struct music_track {
 
 /* Start playing given track.
  * If other track is being played, it is interrupted. */
-void music_play(const struct music_track *track);
+void music_start(const struct music_track *track);
 
 // Is something being played now.
 bool music_playing(void);
 
 // Stop playing
 void music_stop(void);
+
+// Blocking play
+void music_play(const struct music_track *track);
 
 // Move to the next note of track if current one is over.
 void music_update(void);

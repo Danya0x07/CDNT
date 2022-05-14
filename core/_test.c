@@ -206,12 +206,12 @@ void test_music(void)
     
     serial_print_str("Testing music!\n");
 
-    music_play(&track);
+    music_start(&track);
     for (uint32_t now = ms_passed(); ms_passed() - now < 600;)
         music_update();
     music_stop();
     ms_wait(500);
-    music_play(&track);
+    music_start(&track);
     while (music_playing())
         music_update();
 
@@ -242,7 +242,7 @@ void test_music(void)
         track.len = k;
         serial_print_str("Track len: ");
         serial_print_dec(k);
-        music_play(&track);
+        music_start(&track);
         while (music_playing())
             music_update();
     }

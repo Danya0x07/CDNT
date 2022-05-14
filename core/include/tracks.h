@@ -4,7 +4,7 @@
 #include <music.h>
 
 #define DECLARE_TRACK(name) \
-extern struct music_track name##_track
+extern struct music_track track_##name
 
 DECLARE_TRACK(value_change);
 DECLARE_TRACK(cursor_move);
@@ -26,9 +26,9 @@ DECLARE_TRACK(screamer2);
 DECLARE_TRACK(screamer3);
 
 // Some tracks use same notes.
-#define pause_track         screen_transit_track
-#define continue_track      screen_transit_track
-#define option_move_track   value_change_track
-#define power_on_track      intro_track
+#define track_pause         track_screen_transit
+#define track_continue      track_screen_transit
+#define track_option_move   track_value_change
+#define track_power_on      track_intro
 
 #endif // _CORE_TRACKS_H
