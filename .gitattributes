@@ -1,0 +1,2 @@
+*.h linguist-language=C
+core/txt.c working-tree-encoding=CP866
