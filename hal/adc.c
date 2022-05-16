@@ -3,9 +3,9 @@
 
 void adc_init(void)
 {
-    // divider 4
+    // divider 8
     ADMUX = _BV(REFS0);
-    ADCSRA = _BV(ADEN) | _BV(ADPS1);
+    ADCSRA = _BV(ADEN) | _BV(ADPS1) | _BV(ADPS0);
 }
 
 void adc_start_conversion(uint8_t ch)
