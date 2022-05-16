@@ -11,7 +11,6 @@ const PROGMEM char txt_ml_night[] = "Ночь";
 const PROGMEM char txt_ml_pause[] = "Пауза";
 const PROGMEM char txt_ml_hours[] = "Час:";
 const PROGMEM char txt_ml_attacks[] = "Очки:";
-//                                     Score: 
 const PROGMEM char _txt_ml_instructions_p1[] = 
 //  |                          |    26 characters of size 1 per display line
     "  Используйте камеры наблю"
@@ -54,7 +53,8 @@ const PROGMEM char _txt_ml_instructions_p3[] =
 // Game text labels
 const PROGMEM char txt_gl_title[] = "Creepy Drawings";
 const PROGMEM char txt_gl_subtitle[] = "Night tariff";
-const PROGMEM char txt_gl_version[] = "v0.1";
+const PROGMEM char txt_developer[] = "Danya0x07";
+const PROGMEM char txt_gl_version[] = "v0.6";
 const PROGMEM char txt_gl_gameover[] = "Вы проиграли!";
 const PROGMEM char txt_gl_night_complete[] = "Ночь пройдена!";
 

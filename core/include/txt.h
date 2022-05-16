@@ -8,6 +8,7 @@ extern const char txt_ml_attacks[];
 
 extern const char txt_gl_title[];
 extern const char txt_gl_subtitle[];
+extern const char txt_developer[];
 extern const char txt_gl_version[];
 extern const char txt_gl_gameover[];
 extern const char txt_gl_night_complete[];

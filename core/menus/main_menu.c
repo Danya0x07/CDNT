@@ -1,5 +1,6 @@
 #include <menus.h>
 #include <txt.h>
+#include <img.h>
 #include <game.h>
 #include <music.h>
 #include <tracks.h>
@@ -57,7 +58,10 @@ void mainmenu_view_init_cb(struct menu *this)
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
     gfx_set_scale(GFX_SCALE_X1);
-    gfx_print_txt_f(135, 119, txt_gl_version);
+    gfx_print_txt_f(0, 119, txt_gl_version);
+    gfx_draw_image(60, 119, &img_copyright);
+    gfx_print_dec(70, 119, 2022);
+    gfx_print_txt_f(100, 119, txt_developer);
 }
 
 void mainmenu_view_update_cb(struct menu *this)
