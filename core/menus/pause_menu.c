@@ -28,21 +28,20 @@ struct menu *pausemenu_exit_next_cb(struct menu *this)
 void pausemenu_view_init_cb(struct menu *this)
 {
     struct game_output *go = this->io;
-    uint8_t x;
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
     gfx_set_scale(GFX_SCALE_X3);
-    gfx_print_txt_f(35, 0, txt_ml_pause);
+    gfx_print_txt_f(35, 0, txt_pause);
 
     gfx_set_scale(GFX_SCALE_X1);
-    gfx_print_txt_f(53, 30, txt_ml_hours);
+    gfx_print_txt_f(53, 30, txt_hours);
     gfx_print_dec(89, 30, go->hours_survived);
-    gfx_print_txt_f(53, 40, txt_ml_attacks);
+    gfx_print_txt_f(53, 40, txt_attacks);
     gfx_print_dec(95, 40, go->attacks_repelled);
 
     gfx_set_scale(GFX_SCALE_X2);
-    gfx_print_txt_f(18, 70, (const char *)pgm_read_word(&this->labels[CHOICE_CONTINUE]));
-    gfx_print_txt_f(18, 90, (const char *)pgm_read_word(&this->labels[CHOICE_EXIT]));
+    gfx_print_txt_f(18, 70, txt_continue);
+    gfx_print_txt_f(18, 90, txt_exit);
     gfx_set_color(GFX_COLOR_GREEN, GFX_COLOR_BLACK);
     gfx_print_ch(0, 70, '>');
 }
@@ -51,7 +50,7 @@ struct menu pause_menu = {
     .fields = (struct menu_field []) {
         {0, 0, 1, true},
     },
-    .labels = (const char **)txt_pausemenu,
+    .labels = NULL,
     .io = NULL,
     .on_entrance = mainmenu_entrance_cb,
     .on_value_change = mainmenu_value_change_cb,

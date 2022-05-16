@@ -1,17 +1,23 @@
+#include <config.h>
 #include <avr/pgmspace.h>
 
-// Menu items texts.
-const PROGMEM char _txt_mi_play[] = "Играть";
-const PROGMEM char _txt_mi_instructions[] = "Инструкция";
-const PROGMEM char _txt_mi_continue[] = "Продолжить";
-const PROGMEM char _txt_mi_exit[] = "Выйти";
+const PROGMEM char txt_title[] = "Creepy Drawings";
+const PROGMEM char txt_subtitle[] = "Night tariff";
+const PROGMEM char txt_developer[] = "Danya0x07";
+const PROGMEM char txt_version[] = "v" VERSION;
 
-// Menu labels texts.
-const PROGMEM char txt_ml_night[] = "Ночь";
-const PROGMEM char txt_ml_pause[] = "Пауза";
-const PROGMEM char txt_ml_hours[] = "Час:";
-const PROGMEM char txt_ml_attacks[] = "Очки:";
-const PROGMEM char _txt_ml_instructions_p1[] = 
+const PROGMEM char txt_play[] = "Играть";
+const PROGMEM char txt_instructions[] = "Инструкция";
+const PROGMEM char txt_continue[] = "Продолжить";
+const PROGMEM char txt_exit[] = "Выйти";
+const PROGMEM char txt_night[] = "Ночь";
+const PROGMEM char txt_pause[] = "Пауза";
+const PROGMEM char txt_hours[] = "Час:";
+const PROGMEM char txt_attacks[] = "Очки:";
+const PROGMEM char txt_gameover[] = "Вы проиграли!";
+const PROGMEM char txt_night_complete[] = "Ночь пройдена!";
+
+static const PROGMEM char _instructions_p1[] = 
 //  |                          |    26 characters of size 1 per display line
     "  Используйте камеры наблю"
     "дения, чтобы следить за\n"
@@ -27,7 +33,7 @@ const PROGMEM char _txt_ml_instructions_p1[] =
     "есть УФ-режим."
     ;
 
-const PROGMEM char _txt_ml_instructions_p2[] = 
+static const PROGMEM char _instructions_p2[] = 
 //  |                          |
     "  В выбранной комнате мож\n"
     "но выключать бытовые осве\n"
@@ -39,7 +45,7 @@ const PROGMEM char _txt_ml_instructions_p2[] =
     "ций используйте джойстик."
     ;
 
-const PROGMEM char _txt_ml_instructions_p3[] = 
+static const PROGMEM char _instructions_p3[] = 
 //  |                          |
     "  Включённые приборы потре"
     "бляют электроэнергию.\n"
@@ -50,23 +56,15 @@ const PROGMEM char _txt_ml_instructions_p3[] =
     "добраться до вас."
     ;
 
-// Game text labels
-const PROGMEM char txt_gl_title[] = "Creepy Drawings";
-const PROGMEM char txt_gl_subtitle[] = "Night tariff";
-const PROGMEM char txt_developer[] = "Danya0x07";
-const PROGMEM char txt_gl_version[] = "v0.6";
-const PROGMEM char txt_gl_gameover[] = "Вы проиграли!";
-const PROGMEM char txt_gl_night_complete[] = "Ночь пройдена!";
-
 // Game text dialog messages
-//                                    |                          |
-const PROGMEM char _txt_gd_req_n1[] = "  Что ж, я готов. Чего мне\nожидать?";
-const PROGMEM char _txt_gd_req_n2[] = "  Итак, чего мне ожидать\nв эту ночь?";
-const PROGMEM char _txt_gd_req_n3[] = "  Чего ожидать в этот раз?";
-const char *const _txt_gd_req_n4 = _txt_gd_req_n3;
-const char *const _txt_gd_req_n5 = _txt_gd_req_n3;
+//                                       |                          |
+static const PROGMEM char _dialog_q1[] = "  Что ж, я готов. Чего мне\nожидать?";
+static const PROGMEM char _dialog_q2[] = "  Итак, чего мне ожидать\nв эту ночь?";
+static const PROGMEM char _dialog_q3[] = "  Чего ожидать в этот раз?";
+#define _dialog_q4  _dialog_q3
+#define _dialog_q5  _dialog_q3
 
-const PROGMEM char _txt_gd_resp_n1[] = 
+const PROGMEM char _dialog_ans1[] = 
 //  |                          |
     "  Смотри, явится Жёлтый - "
     "прогоняй его вспышкой.\n"
@@ -78,7 +76,7 @@ const PROGMEM char _txt_gd_resp_n1[] =
     "Синего поблизости."
     ;
 
-const PROGMEM char _txt_gd_resp_n2[] = 
+const PROGMEM char _dialog_ans2[] = 
 //  |                          |
     "  Если заметишь Красного, "
     "не оставляй его без присмо"
@@ -89,7 +87,7 @@ const PROGMEM char _txt_gd_resp_n2[] =
     "вспышка. Удачи!"
     ;
 
-const PROGMEM char _txt_gd_resp_n3[] = 
+const PROGMEM char _dialog_ans3[] = 
 //  |                          |
     "  Иногда они вселяются в\n"
     "бытовые приборы, особенно "
@@ -104,12 +102,15 @@ const PROGMEM char _txt_gd_resp_n3[] =
     "треблением!."
     ;
 
-const PROGMEM char _txt_gd_resp_n4[] = "  Ничего нового.";
+const PROGMEM char _dialog_ans4[] = "  Ничего нового.";
+//                                  |                          |
+const PROGMEM char _dialog_ans5[] = "  ..Не теряй бдительность!";
 
-//                                     |                          |
-const PROGMEM char _txt_gd_resp_n5[] = "  ..Не теряй бдительность!";
-
-// String arrays for menus.
-const PROGMEM char *const txt_mainmenu[] = {_txt_mi_play, _txt_mi_instructions};
-const PROGMEM char *const txt_instrmenu[] = {_txt_ml_instructions_p1, _txt_ml_instructions_p2, _txt_ml_instructions_p3};
-const PROGMEM char *const txt_pausemenu[] = {_txt_mi_continue, _txt_mi_exit};
+const PROGMEM char *const txts_instructions[] = {_instructions_p1, _instructions_p2, _instructions_p3};
+const PROGMEM char *const txt_dialogs[5][2] = {
+    {_dialog_q1, _dialog_ans1},
+    {_dialog_q2, _dialog_ans2},
+    {_dialog_q3, _dialog_ans3},
+    {_dialog_q4, _dialog_ans4},
+    {_dialog_q5, _dialog_ans5}
+};

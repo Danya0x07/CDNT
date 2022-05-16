@@ -43,22 +43,22 @@ void mainmenu_view_init_cb(struct menu *this)
     
     gfx_set_color(GFX_COLOR_GREEN, GFX_COLOR_BLACK);
     gfx_set_scale(GFX_SCALE_X3);
-    gfx_print_txt_f(18, 0, txt_gl_title);
+    gfx_print_txt_f(18, 0, txt_title);
 
     gfx_set_color(GFX_COLOR_MAGENTA, GFX_COLOR_BLACK);
     gfx_set_scale(GFX_SCALE_X1);
-    gfx_print_txt_f(70, 48, txt_gl_subtitle);
+    gfx_print_txt_f(70, 48, txt_subtitle);
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
     gfx_set_scale(GFX_SCALE_X2);
-    gfx_print_txt_f(18, 70, (const char *)pgm_read_word(&this->labels[CHOICE_PLAY]));
-    gfx_print_txt_f(18, 90, (const char *)pgm_read_word(&this->labels[CHOICE_INSTRUCTIONS]));
+    gfx_print_txt_f(18, 70, txt_play);
+    gfx_print_txt_f(18, 90, txt_instructions);
     gfx_set_color(GFX_COLOR_GREEN, GFX_COLOR_BLACK);
     gfx_print_ch(0, 70, '>');
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
     gfx_set_scale(GFX_SCALE_X1);
-    gfx_print_txt_f(0, 119, txt_gl_version);
+    gfx_print_txt_f(0, 119, txt_version);
     gfx_draw_image(60, 119, &img_copyright);
     gfx_print_dec(70, 119, 2022);
     gfx_print_txt_f(100, 119, txt_developer);
@@ -84,7 +84,7 @@ struct menu main_menu = {
     .fields = (struct menu_field []) {
         {0, 0, 1, false},
     },
-    .labels = (const char **)txt_mainmenu,
+    .labels = NULL,
     .io = NULL,
     .on_entrance = mainmenu_entrance_cb,
     .on_value_change = mainmenu_value_change_cb,

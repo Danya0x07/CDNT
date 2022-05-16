@@ -50,21 +50,21 @@ static void nightmenu_view_init_cb(struct menu *this)
     gfx_draw_image(126, 75, &arrowdown);
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
-    gfx_print_txt_f(18, 51, txt_ml_night);
-    gfx_print_ch(126, 51, '0' + field->value);
+    gfx_print_txt_f(18, 51, txt_night);
+    gfx_print_dec(126, 51, field->value);
 }
 
 static void nightmenu_view_update_cb(struct menu *this)
 {
     struct menu_field *field = &this->fields[0];
-    gfx_print_ch(126, 51, '0' + field->value);
+    gfx_print_dec(126, 51, field->value);
 }
 
 struct menu night_menu = {
     .fields = (struct menu_field []) {
         {1, 1, 5, true},
     },
-    .labels = (const char *[]) {txt_ml_night},
+    .labels = (const char *[]) {txt_night},
     .io = NULL,
     .on_entrance = mainmenu_entrance_cb,
     .on_value_change = mainmenu_value_change_cb,
