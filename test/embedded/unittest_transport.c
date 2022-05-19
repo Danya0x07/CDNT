@@ -1,4 +1,4 @@
-#include "../unittest_transport.h"
+#include <unity_config.h>
 #include <hal/uart.h>
 
 void unittest_uart_begin()

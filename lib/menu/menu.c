@@ -98,8 +98,11 @@ enum menu_reply menu_execute(enum menu_command cmd)
             } else {
                 next = current_menu->on_exit_next(current_menu);
             }
-            if (next == current_menu)
+            if (next == current_menu) {
+                if (next->on_entrance)
+                    next->on_entrance(next);
                 break;
+            }
 
             if (current_menu->view_deinit)
                 current_menu->view_deinit(current_menu);

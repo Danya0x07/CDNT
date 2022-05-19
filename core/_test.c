@@ -18,7 +18,6 @@
 #include <music.h>
 
 #include <init.h>
-#include <_test.h>
 
 void test_lamps()
 {
@@ -173,6 +172,7 @@ void test_graphics(void)
         .width = 8,
         .height = 8
     };
+    static const PROGMEM char test_msg2[] = "TEST_2";
     
     serial_print_str("Testing GFX library!\n");
 
@@ -185,7 +185,7 @@ void test_graphics(void)
 
     gfx_set_color(GFX_COLOR_RED, GFX_COLOR_BLUE);
     gfx_set_scale(GFX_SCALE_X3);
-    gfx_print_txt(0, 0, test_msg1);
+    gfx_print_txt(0, 0, "Hello!");
     gfx_print_txt(8, 40, "Big and Long @");
 
     gfx_set_color(GFX_COLOR_BLACK, GFX_COLOR_YELLOW);
