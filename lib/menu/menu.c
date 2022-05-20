@@ -2,7 +2,7 @@
 
 static struct menu *current_menu = NULL;
 
-void menu_set_current(struct menu *menu)
+void menu_enter(struct menu *menu)
 {
     current_menu = menu;
     if (menu) {
@@ -99,14 +99,13 @@ enum menu_reply menu_execute(enum menu_command cmd)
                 next = current_menu->on_exit_next(current_menu);
             }
             if (next == current_menu) {
-                if (next->on_entrance)
-                    next->on_entrance(next);
+                reply = MENU_RP_NOTHING;
                 break;
             }
 
             if (current_menu->view_deinit)
                 current_menu->view_deinit(current_menu);
-            menu_set_current(next);
+            menu_enter(next);
         }
 
     case MENU_RP_NOTHING:

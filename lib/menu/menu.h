@@ -96,7 +96,7 @@ enum menu_reply {
     MENU_RP_TRANSITED
 };
 
-void menu_set_current(struct menu *menu);
+void menu_enter(struct menu *menu);
 enum menu_reply menu_execute(enum menu_command cmd);
 bool menu_is_active(void);
 

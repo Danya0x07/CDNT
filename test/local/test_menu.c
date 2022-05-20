@@ -29,8 +29,6 @@ void menu1_cursor_move_cb(struct menu *this)
 
 struct menu *menu1_exit_prev_cb(struct menu *this)
 {
-    struct io *io = this->io;
-    io->entered = false;
     return this;
 }
 
@@ -39,7 +37,7 @@ struct menu *menu1_exit_next_cb(struct menu *this)
     extern struct menu menu2;
     struct io *io = this->io;
     io->entered = false;
-
+    
     if (this->fields[1].value == 1) {
         return &menu2;
     } else {
@@ -131,16 +129,16 @@ void test_menu(void)
     TEST_ASSERT_FALSE(m1_io.entered);
     TEST_ASSERT_FALSE(m1_io.view_inited);
     
-    menu_set_current(&menu1);
+    menu_enter(&menu1);
     TEST_ASSERT_TRUE(menu_is_active());
     TEST_ASSERT_TRUE(m1_io.entered);
     TEST_ASSERT_TRUE(m1_io.view_inited);
 
-    TEST_ASSERT_EQUAL(MENU_RP_TRANSITED, menu_execute(MENU_CMD_PREV));
+    TEST_ASSERT_EQUAL(MENU_RP_NOTHING, menu_execute(MENU_CMD_PREV));
     TEST_ASSERT_TRUE(menu_is_active());
     TEST_ASSERT_TRUE(m1_io.view_inited);
 
-    menu_set_current(&menu1);
+    menu_enter(&menu1);
     TEST_ASSERT_EQUAL(MENU_RP_VALUE_CHANGED, menu_execute(MENU_CMD_INC));
     TEST_ASSERT_EQUAL(MENU_RP_VALUE_CHANGED, menu_execute(MENU_CMD_INC));
     TEST_ASSERT_EQUAL(7, m1_io.value);
@@ -165,7 +163,7 @@ void test_menu(void)
     TEST_ASSERT_EQUAL(0, m1_io.value);
 
     TEST_ASSERT_EQUAL(MENU_RP_CURSOR_MOVED, menu_execute(MENU_CMD_PREV));
-    TEST_ASSERT_EQUAL(MENU_RP_TRANSITED, menu_execute(MENU_CMD_PREV));
+    TEST_ASSERT_EQUAL(MENU_RP_NOTHING, menu_execute(MENU_CMD_PREV));
     TEST_ASSERT_TRUE(menu_is_active());
     TEST_ASSERT_TRUE(m1_io.entered);
     TEST_ASSERT_TRUE(m1_io.view_inited);
@@ -188,7 +186,7 @@ void test_menu(void)
     TEST_ASSERT_FALSE(m2_io.entered);
     TEST_ASSERT_FALSE(m2_io.view_inited);
 
-    menu_set_current(&menu2);
+    menu_enter(&menu2);
     TEST_ASSERT_EQUAL(MENU_RP_TRANSITED, menu_execute(MENU_CMD_NEXT));
     TEST_ASSERT_FALSE(m2_io.entered);
     TEST_ASSERT_FALSE(menu_is_active());
