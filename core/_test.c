@@ -16,8 +16,16 @@
 
 #include <graphics.h>
 #include <music.h>
+#include <scene.h>
+#include <scenes.h>
+#include <menus.h>
+#include <iev.h>
+#include <game.h>
 
 #include <init.h>
+
+static void loop_time_scene(void);
+static void loop_scene(void);
 
 void test_lamps()
 {
@@ -248,6 +256,36 @@ void test_music(void)
     }
 }
 
+void test_scenes(void)
+{
+    struct game_input input;
+    struct game_output output;
+    
+    night_menu.io = &input;
+    pause_menu.io = &input;
+    dialog_scene.arg = &input;
+    victory_scene.arg = &output;
+    gameover_scene.arg = &output;
+
+    input.night_no = 4;
+    output.night_no = 4;
+    output.attacks_repelled = 143;
+    output.hours_survived = 3;
+    
+    scene_enter(&intro_scene);
+    loop_time_scene();
+    scene_enter(&gameover_scene);
+    loop_scene();
+    scene_enter(&victory_scene);
+    loop_scene();
+  
+    for (uint8_t i = 1; i <= 5; i++) {
+        input.night_no = i;
+        scene_enter(&dialog_scene);
+        loop_scene();
+    }
+}
+
 int main(void)
 {
     init_hal();
@@ -268,8 +306,34 @@ int main(void)
         case 'D': test_tft_display(); break;
         case 'G': test_graphics(); break;
         case 'm': test_music(); break;
+        case 'S': test_scenes(); break;
     }
     serial_print_str("\nDone!\n");
 
     for (;;) {}
+}
+
+static void loop_scene(void)
+{
+    enum joystick_event jev;
+
+    while (scene_is_active()) {
+        jev = iev_poll_joystick();
+        if (jev == JEV_RIGHT)
+            scene_next_stage();
+        music_update();
+    }
+}
+
+static void loop_time_scene(void)
+{
+    uint32_t now = ms_passed();
+
+    while (scene_is_active()) {
+        if (ms_passed() - now >= 500) {
+            scene_next_stage();
+            now = ms_passed();
+        }
+        music_update();
+    }
 }

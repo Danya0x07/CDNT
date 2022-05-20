@@ -12,7 +12,8 @@ void scene_enter(const struct scene *scene)
 
 void scene_next_stage(void)
 {
-    if (++current_stage >= current_scene->num_stages) {
+    if (++current_stage > current_scene->num_stages) {
+        current_scene->on_exit();
         current_scene = NULL;
         return;
     }

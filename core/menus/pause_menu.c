@@ -34,10 +34,13 @@ void pausemenu_view_init_cb(struct menu *this)
     gfx_print_txt_f(35, 0, txt_pause);
 
     gfx_set_scale(GFX_SCALE_X1);
-    gfx_print_txt_f(53, 30, txt_hours);
-    gfx_print_dec(89, 30, go->hours_survived);
-    gfx_print_txt_f(53, 40, txt_attacks);
-    gfx_print_dec(95, 40, go->attacks_repelled);
+    gfx_print_txt_f(53, 30, txt_night);
+    gfx_print_ch(77, 30, ':');
+    gfx_print_dec(95, 30, go->night_no);
+    gfx_print_txt_f(53, 40, txt_hours);
+    gfx_print_dec(95, 40, go->hours_survived);
+    gfx_print_txt_f(53, 50, txt_attacks);
+    gfx_print_dec(95, 50, go->attacks_repelled);
 
     gfx_set_scale(GFX_SCALE_X2);
     gfx_print_txt_f(18, 70, txt_continue);

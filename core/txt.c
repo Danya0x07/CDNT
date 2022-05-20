@@ -6,6 +6,9 @@ const PROGMEM char txt_subtitle[] = "Night tariff";
 const PROGMEM char txt_developer[] = "Danya0x07";
 const PROGMEM char txt_version[] = "v" VERSION;
 
+const PROGMEM char txt_gameover_cmt[] = "x_x";
+const PROGMEM char txt_victory_cmt[] = "^_^";
+
 const PROGMEM char txt_play[] = "Играть";
 const PROGMEM char txt_instructions[] = "Инструкция";
 const PROGMEM char txt_continue[] = "Продолжить";
@@ -14,17 +17,17 @@ const PROGMEM char txt_night[] = "Ночь";
 const PROGMEM char txt_pause[] = "Пауза";
 const PROGMEM char txt_hours[] = "Час:";
 const PROGMEM char txt_attacks[] = "Очки:";
-const PROGMEM char txt_gameover[] = "Вы проиграли!";
-const PROGMEM char txt_night_complete[] = "Ночь пройдена!";
+const PROGMEM char txt_night_failed[] = "Ночь\nпровалена!";
+const PROGMEM char txt_night_completed[] = "Ночь\nпройдена!";
 
 static const PROGMEM char _instructions_p1[] = 
 //  |                          |    26 characters of size 1 per display line
-    "  Используйте камеры наблю"
+    "\tИспользуйте камеры наблю"
     "дения, чтобы следить за\n"
     "паранормальным.\n"
     "Переключайте камеры с помо"
     "щью сенсорной панели.\n"
-    "  Некоторые вещи видны\n"
+    "\tНекоторые вещи видны\n"
     "только в УФ-режиме камеры."
     "Чтобы включить УФ-режим\n"
     "выбранной камеры, косните\n"
@@ -35,7 +38,7 @@ static const PROGMEM char _instructions_p1[] =
 
 static const PROGMEM char _instructions_p2[] = 
 //  |                          |
-    "  В выбранной комнате мож\n"
+    "\tВ выбранной комнате мож\n"
     "но выключать бытовые осве\n"
     "тительные приборы, вклю\n"
     "чать и выключать потолоч\n"
@@ -47,7 +50,7 @@ static const PROGMEM char _instructions_p2[] =
 
 static const PROGMEM char _instructions_p3[] = 
 //  |                          |
-    "  Включённые приборы потре"
+    "\tВключённые приборы потре"
     "бляют электроэнергию.\n"
     "Ночной тариф ограничен.\n"
     "Следите за энергопотребле\n"
@@ -58,15 +61,15 @@ static const PROGMEM char _instructions_p3[] =
 
 // Game text dialog messages
 //                                       |                          |
-static const PROGMEM char _dialog_q1[] = "  Что ж, я готов. Чего мне\nожидать?";
-static const PROGMEM char _dialog_q2[] = "  Итак, чего мне ожидать\nв эту ночь?";
-static const PROGMEM char _dialog_q3[] = "  Чего ожидать в этот раз?";
+static const PROGMEM char _dialog_q1[] = "\tЧто ж, я готов.\nЧего мне ожидать?";
+static const PROGMEM char _dialog_q2[] = "\tИтак, чего мне ожидать\nв эту ночь?";
+static const PROGMEM char _dialog_q3[] = "\tЧего ожидать в этот раз?";
 #define _dialog_q4  _dialog_q3
 #define _dialog_q5  _dialog_q3
 
 const PROGMEM char _dialog_ans1[] = 
 //  |                          |
-    "  Смотри, явится Жёлтый - "
+    "\tСмотри, явится Жёлтый - "
     "прогоняй его вспышкой.\n"
     "Синего видно только в УФ, "
     "и против него нужна\n"
@@ -78,7 +81,7 @@ const PROGMEM char _dialog_ans1[] =
 
 const PROGMEM char _dialog_ans2[] = 
 //  |                          |
-    "  Если заметишь Красного, "
+    "\tЕсли заметишь Красного, "
     "не оставляй его без присмо"
     "тра. как только он начнёт "
     "двигаться, он будет делать"
@@ -89,7 +92,7 @@ const PROGMEM char _dialog_ans2[] =
 
 const PROGMEM char _dialog_ans3[] = 
 //  |                          |
-    "  Иногда они вселяются в\n"
+    "\tИногда они вселяются в\n"
     "бытовые приборы, особенно "
     "лампы. Чтобы изгнать, мож\n"
     "но удалённо выключить при\n"
@@ -102,12 +105,12 @@ const PROGMEM char _dialog_ans3[] =
     "треблением!."
     ;
 
-const PROGMEM char _dialog_ans4[] = "  Ничего нового.";
+const PROGMEM char _dialog_ans4[] = "\tНичего нового.";
 //                                  |                          |
-const PROGMEM char _dialog_ans5[] = "  ..Не теряй бдительность!";
+const PROGMEM char _dialog_ans5[] = "\t..Не теряй бдительность!";
 
 const PROGMEM char *const txts_instructions[] = {_instructions_p1, _instructions_p2, _instructions_p3};
-const PROGMEM char *const txt_dialogs[5][2] = {
+const PROGMEM char *const txts_dialogs[NIGHTS_MAX][2] = {
     {_dialog_q1, _dialog_ans1},
     {_dialog_q2, _dialog_ans2},
     {_dialog_q3, _dialog_ans3},

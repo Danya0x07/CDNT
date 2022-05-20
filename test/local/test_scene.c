@@ -14,10 +14,16 @@ static void scene1_stage_cb(const void *arg, uint8_t stage)
     TEST_ASSERT_EQUAL(stage, current_stage);
 }
 
+static void scene1_exit_cb(void)
+{
+    TEST_MESSAGE("Exiting scene");
+}
+
 struct scene scene1 = {
     .arg = NULL,
     .on_entrance = scene1_entrance_cb,
     .on_stage = scene1_stage_cb,
+    .on_exit = scene1_exit_cb,
     .num_stages = 5
 };
 
@@ -27,5 +33,5 @@ void test_scene(void)
     while (scene_is_active()) {
         scene_next_stage();
     }
-    TEST_ASSERT_EQUAL(4, current_stage);
+    TEST_ASSERT_EQUAL(5, current_stage);
 }

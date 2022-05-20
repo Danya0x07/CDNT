@@ -1,9 +1,9 @@
 #include <init.h>
 #include <menus.h>
+#include <scenes.h>
 #include <game.h>
 #include <iev.h>
 #include <music.h>
-#include <tracks.h>
 #include <hal/timers.h>
 
 static struct {
@@ -20,6 +20,7 @@ static struct {
 void loop_menu(void);
 void loop_game(void);
 void loop_scene(void);
+void loop_time_scene(void);
 
 int main(void)
 {
@@ -28,11 +29,26 @@ int main(void)
 
     night_menu.io = &game_io.input;
     pause_menu.io = &game_io.input;
+    dialog_scene.arg = &game_io.input;
+    victory_scene.arg = &game_io.output;
+    gameover_scene.arg = &game_io.output;
 
-    menu_enter(&main_menu);
-    music_start(&track_intro);
+    //menu_enter(&main_menu);
+    scene_enter(&intro_scene);
+    loop_time_scene();
+    scene_enter(&gameover_scene);
+    loop_scene();
+    scene_enter(&victory_scene);
+    loop_scene();
+  
+    for (uint8_t i = 1; i <= 5; i++) {
+        game_io.input.night_no = i;
+        scene_enter(&dialog_scene);
+        loop_scene();
+    }
 
     for (;;) {
+        loop_scene();
         loop_menu();
         loop_game();
         if (game_io.type == GIO_INPUT) {
@@ -55,6 +71,31 @@ int main(void)
             }
         }
         
+    }
+}
+
+void loop_scene(void)
+{
+    enum joystick_event jev;
+
+    while (scene_is_active()) {
+        jev = iev_poll_joystick();
+        if (jev == JEV_RIGHT)
+            scene_next_stage();
+        music_update();
+    }
+}
+
+void loop_time_scene(void)
+{
+    uint32_t now = ms_passed();
+
+    while (scene_is_active()) {
+        if (ms_passed() - now >= 500) {
+            scene_next_stage();
+            now = ms_passed();
+        }
+        music_update();
     }
 }
 

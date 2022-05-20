@@ -64,13 +64,13 @@ DEFINE_TRACK(value_change, {330, 50});
 DEFINE_TRACK(cursor_move, {440, 50});
 DEFINE_TRACK(screen_transit, {660, 50});
 DEFINE_TRACK(intro, {800, 300}, {1000, 150}, {1200, 300}, {1000, 150}, {800, 300});
-DEFINE_TRACK(game_start, {NOTE_F4, 800}, {NOTE_G4, 400}, {NOTE_GS4, 400}, {NOTE_CS5, 800}, {NOTE_C5, 800});
-DEFINE_TRACK(night_complete, 
+DEFINE_TRACK(night_begins, {NOTE_F4, 800}, {NOTE_G4, 400}, {NOTE_GS4, 400}, {NOTE_CS5, 800}, {NOTE_C5, 800});
+DEFINE_TRACK(night_completed, 
     {NOTE_D4, 200}, {NOTE_G4, 800}, 
     {NOTE_D4, 200}, {NOTE_A4, 800}, 
     {NOTE_D4, 200}, {NOTE_A4, 400},
     {NOTE_C5, 200}, {NOTE_B4, 800});
-DEFINE_TRACK(game_over,
+DEFINE_TRACK(night_failed,
     {NOTE_GS4, 400}, {NOTE_G4, 400}, {NOTE_FS4, 800});
 DEFINE_TRACK(cam_switch, {200, 100});
 DEFINE_TRACK(cam_uv_switch, {1400, 100});

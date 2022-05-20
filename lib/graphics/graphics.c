@@ -317,6 +317,10 @@ void gfx_print_txt_f(uint8_t x, uint8_t y, const char *txt)
                 break;
             if (c == '\0')
                 return;
+            if (c == '\t') {
+                x += 2 * CHAR_PLACE_WIDTH * settings.scale;
+                continue;
+            }
             gfx_print_ch(x, y, c);
             x += CHAR_PLACE_WIDTH * settings.scale;
         }

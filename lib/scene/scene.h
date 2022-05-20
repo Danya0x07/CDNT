@@ -10,7 +10,8 @@
 struct scene {
     const void *arg;
     void (*on_entrance)(const void *arg);
-    void (*on_stage)(const void *arg, uint8_t stage);
+    void (*on_stage)(const void *arg, uint8_t stage);  // Can be NULL if num_stages == 0
+    void (*on_exit)(void);
     const uint8_t num_stages;
 };
 
