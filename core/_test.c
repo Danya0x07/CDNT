@@ -24,8 +24,8 @@
 
 #include <init.h>
 
-static void loop_time_scene(void);
-static void loop_scene(void);
+static void loop_timeout_scene(void);
+static void loop_trigger_scene(void);
 
 void test_lamps()
 {
@@ -273,16 +273,16 @@ void test_scenes(void)
     output.hours_survived = 3;
     
     scene_enter(&intro_scene);
-    loop_time_scene();
+    loop_timeout_scene();
     scene_enter(&gameover_scene);
-    loop_scene();
+    loop_trigger_scene();
     scene_enter(&victory_scene);
-    loop_scene();
+    loop_trigger_scene();
   
     for (uint8_t i = 1; i <= 5; i++) {
         input.night_no = i;
         scene_enter(&dialog_scene);
-        loop_scene();
+        loop_trigger_scene();
     }
 }
 
@@ -313,7 +313,7 @@ int main(void)
     for (;;) {}
 }
 
-static void loop_scene(void)
+static void loop_trigger_scene(void)
 {
     enum joystick_event jev;
 
@@ -325,7 +325,7 @@ static void loop_scene(void)
     }
 }
 
-static void loop_time_scene(void)
+static void loop_timeout_scene(void)
 {
     uint32_t now = ms_passed();
 

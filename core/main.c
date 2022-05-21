@@ -6,75 +6,70 @@
 #include <music.h>
 #include <hal/timers.h>
 
-static struct {
-    enum __attribute__((packed)) {
-        GIO_INPUT,
-        GIO_OUTPUT
-    } type;
-    union {
-        struct game_input input;
-        struct game_output output;
-    };
-} game_io;
+enum {
+    STATE_MENU,
+    STATE_DIALOG,
+    STATE_PLAYING,
+    STATE_VICTORY,
+    STATE_GAMOVER
+} state;
 
+struct game_input gin;
+struct game_output gout;
+
+void loop_timeout_scene(uint16_t timeout);
+void loop_trigger_scene(void);
 void loop_menu(void);
 void loop_game(void);
-void loop_scene(void);
-void loop_time_scene(void);
+
+void (*loop)(void);
+void transit(void);
+
+void setup(void)
+{
+    night_menu.io = &gin;
+    pause_menu.io = &gin;
+
+    dialog_scene.arg = &gin;
+    victory_scene.arg = &gout;
+    gameover_scene.arg = &gout;
+
+    loop = loop_menu;
+    state = STATE_MENU;
+}
 
 int main(void)
 {
     init_hal();
     init_drivers();
 
-    night_menu.io = &game_io.input;
-    pause_menu.io = &game_io.input;
-    dialog_scene.arg = &game_io.input;
-    victory_scene.arg = &game_io.output;
-    gameover_scene.arg = &game_io.output;
+    setup();
 
-    //menu_enter(&main_menu);
     scene_enter(&intro_scene);
-    loop_time_scene();
-    scene_enter(&gameover_scene);
-    loop_scene();
-    scene_enter(&victory_scene);
-    loop_scene();
-  
-    for (uint8_t i = 1; i <= 5; i++) {
-        game_io.input.night_no = i;
-        scene_enter(&dialog_scene);
-        loop_scene();
-    }
+    loop_timeout_scene(650);
+
+    menu_enter(&main_menu);
 
     for (;;) {
-        loop_scene();
-        loop_menu();
-        loop_game();
-        if (game_io.type == GIO_INPUT) {
-            game_enter(&game_io.input);
-        } else {
-            game_get_results(&game_io.output);
-            switch (game_io.output.status) 
-            {
-            case GS_PAUSE: 
-                menu_enter(&pause_menu); 
-                break;
-            case GS_GAME_OVER:
-                // TODO: show GameOver scene
-                menu_enter(&main_menu);
-                break;
-            case GS_NIGHT_COMPLETED:
-                // TODO: show Victory scene
-                menu_enter(&main_menu);
-                break;
-            }
-        }
-        
+        loop();
+        transit();
     }
 }
 
-void loop_scene(void)
+void loop_timeout_scene(uint16_t timeout)
+{
+    uint32_t now = ms_passed();
+
+    while (scene_is_active()) {
+        if (ms_passed() - now >= timeout) {
+            scene_next_stage();
+            now = ms_passed();
+        }
+        music_update();
+    }
+}
+
+void loop_trigger_scene(void)
 {
     enum joystick_event jev;
 
@@ -82,19 +77,6 @@ void loop_scene(void)
         jev = iev_poll_joystick();
         if (jev == JEV_RIGHT)
             scene_next_stage();
-        music_update();
-    }
-}
-
-void loop_time_scene(void)
-{
-    uint32_t now = ms_passed();
-
-    while (scene_is_active()) {
-        if (ms_passed() - now >= 500) {
-            scene_next_stage();
-            now = ms_passed();
-        }
         music_update();
     }
 }
@@ -114,7 +96,6 @@ void loop_menu(void)
         }
         music_update();
     }
-    game_io.type = GIO_INPUT;
 }
 
 void loop_game(void)
@@ -128,5 +109,51 @@ void loop_game(void)
         game_tick(jev, btnev, ms_passed());
         music_update();
     }
-    game_io.type = GIO_OUTPUT;
+}
+
+void transit(void)
+{
+    switch (state) {
+        case STATE_MENU:
+            if (gin.action == ACTION_NEW_GAME) {
+                scene_enter(&dialog_scene);
+                state = STATE_DIALOG;
+            } else {
+                game_enter(&gin);
+                state = STATE_PLAYING;
+            }
+            break;
+        
+        case STATE_DIALOG:
+            game_enter(&gin);
+            state = STATE_PLAYING;
+            break;
+
+        case STATE_PLAYING:
+            if (gout.status == GS_PAUSE) {
+                menu_enter(&pause_menu);
+                state = STATE_MENU;
+            } else if (gout.status == GS_NIGHT_FAILED) {
+                scene_enter(&gameover_scene);
+                state = STATE_GAMOVER;
+            } else {  // victory
+                scene_enter(&victory_scene);
+                state = STATE_VICTORY;
+            }
+            break;
+        
+        case STATE_GAMOVER:
+        case STATE_VICTORY:
+            menu_enter(&main_menu);
+            state = STATE_MENU;
+            break;
+    }
+
+    switch (state) {
+        case STATE_MENU:    loop = loop_menu; break;
+        case STATE_DIALOG:  loop = loop_trigger_scene; break;
+        case STATE_PLAYING: loop = loop_game; break;
+        case STATE_GAMOVER: loop = loop_trigger_scene; break;
+        case STATE_VICTORY: loop = loop_trigger_scene; break;
+    }
 }

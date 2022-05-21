@@ -16,7 +16,7 @@ struct game_input {
 struct game_output {
     enum __attribute__((packed)) {
         GS_PAUSE,
-        GS_GAME_OVER,
+        GS_NIGHT_FAILED,
         GS_NIGHT_COMPLETED
     } status;
     uint16_t hours_survived;
