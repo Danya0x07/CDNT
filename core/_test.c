@@ -34,12 +34,15 @@ void test_lamps()
 
     for (uint8_t i = 0; i < 4; i++) {
         for (uint8_t j = 0; j < 8; j++) {
-            data[i] |= 1 << (7 - j);
+            serial_print_dec((i << 3) + j);
+            serial_print_char('\n');
+            data[i] |= 1 << j;
             shiftreg_write_lamps(data);
-            ms_wait(500);
-            data[i] &= ~(1 << (7 - j));
+            while (!serial_line_received()) {}
+            uart_flush_rx_buffer();
+            data[i] &= ~(1 << j);
             shiftreg_write_lamps(data);
-            ms_wait(500);
+            serial_print_char('\n');
         }
     }
 }
@@ -51,12 +54,15 @@ void test_drawings()
 
     for (uint8_t i = 0; i < 6; i++) {
         for (uint8_t j = 0; j < 8; j++) {
-            data[i] |= 1 << (7 - j);
+            serial_print_dec((i << 3) + j);
+            serial_print_char('\n');
+            data[i] |= 1 << j;
             shiftreg_write_drawings(data);
-            ms_wait(500);
-            data[i] &= ~(1 << (7 - j));
+            while (!serial_line_received()) {}
+            uart_flush_rx_buffer();
+            data[i] &= ~(1 << j);
             shiftreg_write_drawings(data);
-            ms_wait(500);
+            serial_print_char('\n');
         }
     }
 }

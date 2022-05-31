@@ -39,7 +39,7 @@ void dialog_stage_cb(const void *arg, uint8_t stage)
 void dialog_exit_cb(void)
 {
     gfx_clear();
-    music_play(&track_night_begins);
+    music_start(&track_night_begins);
 }
 
 struct scene dialog_scene = {NULL, dialog_entrance_cb, dialog_stage_cb, dialog_exit_cb, 1};
