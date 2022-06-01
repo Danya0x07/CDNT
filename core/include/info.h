@@ -1,7 +1,7 @@
 #ifndef _CORE_INFO_H
 #define _CORE_INFO_H
 
-#define VERSION "0.7"
+#define VERSION "0.8"
 
 // Supported languages
 #define LANG_RU    1

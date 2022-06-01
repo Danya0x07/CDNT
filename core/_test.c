@@ -21,6 +21,7 @@
 #include <menus.h>
 #include <iev.h>
 #include <game.h>
+#include <house.h>
 
 #include <init.h>
 
@@ -292,6 +293,115 @@ void test_scenes(void)
     }
 }
 
+void test_house(void)
+{
+    serial_print_str("Testing House Control!\n");
+
+    house_reset();
+
+    for (enum ceiling_light ceiling = CEILING_L1; ceiling <= CEILING_L7; ceiling++) {
+        ceiling_light_set(ceiling, 1);
+        house_update();
+        ms_wait(500);
+        ceiling_light_set(ceiling, 0);
+        house_update();
+        ms_wait(500);
+    }
+
+    for (enum room_light lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
+        room_light_set(lamp, 1);
+    }
+    house_update();
+    ms_wait(1000);
+
+    for (enum room_light lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
+        room_light_set(lamp, 0);
+    }
+    house_update();
+
+    for (enum camera_light cam = CAM_L1; cam <= CAM_LP; cam++) {
+        camera_light_set(cam, CAM_MODE_W);
+        house_update();
+        ms_wait(500);
+        camera_light_set(cam, CAM_MODE_UV);
+        house_update();
+        ms_wait(500);
+        camera_light_set(cam, CAM_MODE_OFF);
+        house_update();
+        ms_wait(500);
+    }
+
+    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_W);
+    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_UV);
+    house_update();
+    ms_wait(500);
+    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_UV);
+    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_W);
+    house_update();
+    ms_wait(500);
+    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_OFF);
+    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_OFF);
+    house_update();
+    ms_wait(500);
+
+    for (enum drawing drawing = DRAWING_R1L; drawing <= DRAWING_RPM; drawing++) {
+        drawing_set(drawing, DCOLOR_WHITE);
+        house_update();
+        ms_wait(500);
+        drawing_set(drawing, DCOLOR_OFF);
+    }
+    house_update();
+
+    tv_set(1);
+    house_update();
+    ms_wait(1000);
+    tv_set(0);
+    house_update();
+    ms_wait(1000);
+    tv_set(1);
+    house_update();
+    ms_wait(1000);
+    tv_set(0);
+    house_update();
+    ms_wait(1000);
+}
+
+void test_house_masking(void)
+{
+    serial_print_str("Testing House Masking!\n");
+
+    house_reset();
+
+    for (enum ceiling_light ceiling = CEILING_L1; ceiling <= CEILING_L7; ceiling++) {
+        ceiling_light_set(ceiling, 1);
+    }
+    for (enum room_light lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
+        room_light_set(lamp, 1);
+    }
+    for (enum camera_light cam = CAM_L1; cam <= CAM_LP; cam++) {
+        camera_light_set(cam, CAM_MODE_UV);
+    }
+    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_W);
+    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_UV);
+    for (enum drawing drawing = DRAWING_R1L; drawing <= DRAWING_RPM; drawing++) {
+        drawing_set(drawing, DCOLOR_WHITE);
+    }
+    tv_set(1);
+
+    uint8_t masks[8] = 
+        {MASK_ROOM1, MASK_ROOM2, MASK_ROOM3, MASK_ROOM4,
+         MASK_ROOM5, MASK_ROOM6, MASK_ROOM7, MASK_ROOMP};
+    for (uint8_t i = 0; i < 8; i++) {
+        room_mask_set(masks[i]);
+        house_update();
+        ms_wait(2000);
+    }
+    room_mask_set(MASK_ROOM2 | MASK_ROOM3);
+    house_update();
+    ms_wait(2000);
+    house_reset();
+}
+
 int main(void)
 {
     init_hal();
@@ -302,17 +412,19 @@ int main(void)
     char cmd = uart_read_byte();
 
     switch (cmd) {
-        case 'l': test_lamps();     break;
-        case 'd': test_drawings();  break;
-        case 'b': test_buttons();   break;
-        case 'j': test_joystick();  break;
-        case 's': test_serial_receiving();  break;
-        case 'z': test_buzzer_playing();    break;
+        case 'l': test_lamps(); break;
+        case 'd': test_drawings(); break;
+        case 'b': test_buttons(); break;
+        case 'j': test_joystick(); break;
+        case 's': test_serial_receiving(); break;
+        case 'z': test_buzzer_playing(); break;
         case 't': test_oled_display(); break;
         case 'D': test_tft_display(); break;
         case 'G': test_graphics(); break;
         case 'm': test_music(); break;
         case 'S': test_scenes(); break;
+        case 'h': test_house(); break;
+        case 'H': test_house_masking(); break;
     }
     serial_print_str("\nDone!\n");
 
