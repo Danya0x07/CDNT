@@ -1,4 +1,5 @@
 #include <game.h>
+#include <graphics.h>
 
 bool dummy = false;
 
@@ -14,11 +15,17 @@ void game_enter(struct game_input *params)
 
 void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
 {
-    dummy = false;
+    // Process user events
+
+    // Proces time-dependent events
+
+    // Process game data
+
+    // Update view
+
 }
 
 void game_get_results(struct game_output *results)
 {
-    results->attacks_repelled = 5;
-    results->hours_survived = 432;
+    
 }
