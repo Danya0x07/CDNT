@@ -78,10 +78,10 @@ static const PROGMEM enum drawing route_3l_r[NUM_OF_DRAWINGS] = {
     [DRAWING_RPM] =     DRAWING_RPM,
 };
 
-static const PROGMEM enum drawing *const routes[NUM_OF_ROUTES] = 
+static const PROGMEM enum drawing *const routes[NUM_OF_ROUTE_VARIANTS] = 
     {route_1l_l, route_1r_l, route_3r_r, route_3l_r};
 
-enum drawing read_next_drawing(enum route route, enum drawing current)
+enum drawing route_read_next(enum route_variant route, enum drawing current)
 {
     return pgm_read_byte(pgm_read_word(&routes[route]) + current);
 }

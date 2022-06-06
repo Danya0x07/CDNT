@@ -1,61 +1,62 @@
-#include "entity.h"
+#include "slots.h"
+#include "components.h"
+#include <house.h>
 
-extern struct paranormal_entity *get_entity_by_id(entity_id_t id);
+static entity_id drawing_slots[NUM_OF_DRAWINGS] = {NO_ENTITY};
+static entity_id lamp_slots[NUM_OF_ROOM_LIGHTS] = {NO_ENTITY};
+static entity_id cam_slots[NUM_OF_CAMS - 1 /* RP cam can't be broken */] = {NO_ENTITY};
+static entity_id tv_slot = NO_ENTITY;
 
-static entity_id_t drawing_slots[NUM_OF_DRAWINGS] = {NO_ENTITY};
-static entity_id_t __lamp_slots[NUM_OF_ROOM_LIGHTS] = {NO_ENTITY};
-static entity_id_t __cam_slots[NUM_OF_CAMS - 1 /* RP cam can't be broken */] = {NO_ENTITY};
-static entity_id_t __tv_slot = NO_ENTITY;
+static entity_id *const slots[4] = {drawing_slots, lamp_slots, cam_slots, &tv_slot};
 
-static entity_id_t *const slots[4] = {drawing_slots, __lamp_slots, __cam_slots, &__tv_slot};
-
-void slot_occupy(struct paranormal_entity *e, enum slot_type s_type, uint8_t s_id)
+void slot_occupy(entity_id entity, enum slot_type s_type, uint8_t s_idx)
 {
-    entity_id_t occupier_id = slot_get_occupier_id(s_type, s_id);
-    enum slot_type e_slot_type = e->slot_type;
-    uint8_t e_slot_id = e->slot_id;
+    struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
+    struct cpn_slot bak_slot = *slot;
 
-    slot_release(e);
+    slot_release(entity);
 
     /* Works properly if not trying to occupy busy slot 
-     * having e->slot_type == SLOT_NONE.
+     * having slot->type == SLOT_NONE.
      */
-    if (occupier_id) {
-        struct paranormal_entity *occupier = get_entity_by_id(occupier_id);
+    entity_id occupier = slot_get_occupier(s_type, s_idx);
+    if (occupier) {
         slot_release(occupier);
-        slot_occupy(occupier, e_slot_type, e_slot_id);
+        slot_occupy(occupier, bak_slot.type, bak_slot.idx);
     }
 
-    e->slot_type = s_type;
-    e->slot_id = s_id;
-    slots[s_type][s_id] = e->id;
+    slot->type = s_type;
+    slot->idx = s_idx;
+    slots[s_type - 1][s_idx] = entity;
 }
 
-void slot_release(struct paranormal_entity *e)
+void slot_release(entity_id entity)
 {
-    if (e->slot_type != SLOT_NONE)
-        *slots[e->slot_type - 1] = NO_ENTITY;
-    e->slot_type = SLOT_NONE;
-    e->slot_id = 0;
+    struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
+
+    if (slot->type != SLOT_NONE)
+        slots[slot->type - 1][slot->idx] = NO_ENTITY;
+    slot->type = SLOT_NONE;
+    slot->idx = 0;
 }
 
-entity_id_t slot_get_occupier_id(enum slot_type s_type, uint8_t s_id)
+entity_id slot_get_occupier(enum slot_type s_type, uint8_t s_idx)
 {
-    return slots[s_type][s_id];
+    return slots[s_type - 1][s_idx];
 }
 
-bool slot_is_free(enum slot_type s_type, uint8_t s_id)
+bool slot_is_free(enum slot_type s_type, uint8_t s_idx)
 {
-    return slot_get_occupier_id(s_type, s_id) == NO_ENTITY;
+    return slot_get_occupier(s_type, s_idx) == NO_ENTITY;
 }
 
-uint8_t slots_filter_free(enum slot_type s_type, uint8_t *s_ids, uint8_t n_ids)
+uint8_t slots_filter_free(enum slot_type s_type, uint8_t *s_idxs, uint8_t n_idxs)
 {
     uint8_t nfree = 0;
 
-    for (uint8_t i = 0; i < n_ids; i++) {
-        if (slot_is_free(s_type, s_ids[i])) {
-            s_ids[nfree++] = s_ids[i];
+    for (uint8_t i = 0; i < n_idxs; i++) {
+        if (slot_is_free(s_type, s_idxs[i])) {
+            s_idxs[nfree++] = s_idxs[i];
         }
     }
     return nfree;

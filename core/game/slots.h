@@ -2,6 +2,8 @@
 #define _CORE_GAME_SLOTS_H
 
 #include <stdint.h>
+#include <stdbool.h>
+#include "entities.h"
 
 enum __attribute__((packed)) slot_type {
     SLOT_NONE,
@@ -11,13 +13,11 @@ enum __attribute__((packed)) slot_type {
     SLOT_TV
 };
 
-struct paranormal_entity;
+void slot_occupy(entity_id entity, enum slot_type s_type, uint8_t s_idx);
+void slot_release(entity_id entity);
 
-void slot_occupy(struct paranormal_entity *e, enum slot_type s_type, uint8_t s_id);
-void slot_release(struct paranormal_entity *e);
-
-entity_id_t slot_get_occupier_id(enum slot_type s_type, uint8_t s_id);
-bool slot_is_free(enum slot_type s_type, uint8_t s_id);
-uint8_t slots_filter_free(enum slot_type s_type, uint8_t *s_ids, uint8_t n_ids);
+entity_id slot_get_occupier(enum slot_type s_type, uint8_t s_idx);
+bool slot_is_free(enum slot_type s_type, uint8_t s_idx);
+uint8_t slots_filter_free(enum slot_type s_type, uint8_t *s_idxs, uint8_t n_idxs);
 
 #endif // _CORE_GAME_SLOTS_H

@@ -3,16 +3,16 @@
 
 #include "house.h"
 
-enum route {
-    ROUTE_1L_L,
-    ROUTE_1R_L,
-    ROUTE_3R_R,
-    ROUTE_3L_R,
+enum __attribute__((packed)) route_variant {
+    ROUTEVAR_1L_L,
+    ROUTEVAR_1R_L,
+    ROUTEVAR_3R_R,
+    ROUTEVAR_3L_R,
 
-    NUM_OF_ROUTES
+    NUM_OF_ROUTE_VARIANTS
 };
 
-enum drawing read_next_drawing(enum route route, enum drawing current);
+enum drawing route_read_next(enum route_variant rvar, enum drawing current);
 uint8_t find_closest_lamps(enum drawing d, enum room_light *rl);
 void find_drawings_nearby(enum room_light rl, enum drawing *d);
 

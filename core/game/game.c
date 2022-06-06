@@ -1,7 +1,7 @@
 #include <game.h>
 #include <graphics.h>
 #include <house.h>
-#include "entity.h"
+#include "entities.h"
 
 bool __ceilings_on[NUM_OF_CEILINGS] = {0};
 
