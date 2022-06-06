@@ -14,7 +14,9 @@ enum __attribute__((packed)) ceiling_light {
     CEILING_L4,
     CEILING_L5,
     CEILING_L6,
-    CEILING_L7
+    CEILING_L7,
+
+    NUM_OF_CEILINGS
 };
 
 enum __attribute__((packed)) room_light {
@@ -24,10 +26,13 @@ enum __attribute__((packed)) room_light {
     RL_R6_FLOOR,
     RL_R7_DESK,
     RL_R7_FLOOR,
+
+    NUM_OF_ROOM_LIGHTS
 };
 
 enum __attribute__((packed)) camera_light {
-    CAM_L1, CAM_L2, CAM_L3, CAM_L4, CAM_L5, CAM_L6, CAM_L7, CAM_LP
+    CAM_L1, CAM_L2, CAM_L3, CAM_L4, CAM_L5, CAM_L6, CAM_L7, CAM_LP,
+    NUM_OF_CAMS
 };
 
 enum __attribute__((packed)) flash_light {
@@ -52,6 +57,8 @@ enum __attribute__((packed)) drawing {
     DRAWING_RPL,
     DRAWING_RPR,
     DRAWING_RPM,
+
+    NUM_OF_DRAWINGS,
 };
 
 enum __attribute__((packed)) camera_mode {
