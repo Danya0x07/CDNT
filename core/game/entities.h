@@ -8,7 +8,7 @@ typedef enum __attribute__((packed)) {
     ENTITY_RED,
     ENTITY_PLTLAMP,
     ENTITY_PLTCAM,
-    NUM_OF_ENTITIES
+    NUM_OF_ENTITIES = ENTITY_PLTCAM
 } entity_id;
 
 #endif

@@ -12,7 +12,8 @@ typedef enum __attribute__((packed)) {
     COMPONENT_VIEW,
     COMPONENT_SLOT,
     COMPONENT_ROUTE,
-    COMPONENT_READINESS
+    COMPONENT_READINESS,
+    NUM_OF_COMPONENTS
 } component_id;
 
 struct cpn_activity {
