@@ -1,9 +1,7 @@
 #include <config.h>
 #include <house.h>
 #include "movealg.h"
-#include "entities.h"
 #include "components.h"
-#include "actions.h"
 #include "randnum.h"
 
 static void start_drawings_route(entity_id entity)
@@ -92,7 +90,7 @@ static void move_to_next_drawing(entity_id entity)
     slot_occupy(entity, SLOT_DRAWING, next_drawing);
 }
 
-static void exorcise_from_lamp_to_drawing(entity_id entity)
+void movealg_exorcise_from_lamp_to_drawing(entity_id entity)
 {
     struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
     enum drawing drs[3];
@@ -101,7 +99,7 @@ static void exorcise_from_lamp_to_drawing(entity_id entity)
     slot_occupy(entity, SLOT_DRAWING, drs[randidx(nfree)]);
 }
 
-void movealg_classic(entity_id entity)
+void movealg_classic_move(entity_id entity)
 {
     struct cpn_activity *activity = component_get(entity, COMPONENT_ACTIVITY);
 
@@ -123,14 +121,14 @@ void movealg_classic(entity_id entity)
                 break;
             
             case SLOT_LAMP:
-                exorcise_from_lamp_to_drawing(entity);
+                movealg_exorcise_from_lamp_to_drawing(entity);
             
             default: break;
         }
     }
 }
 
-void movealg_simplified(entity_id entity)
+void movealg_simplified_move(entity_id entity)
 {
     struct cpn_activity *activity = component_get(entity, COMPONENT_ACTIVITY);
 
@@ -151,7 +149,7 @@ void movealg_simplified(entity_id entity)
     }
 }
 
-void movealg_quick(entity_id entity, uint32_t *act_timeout)
+void movealg_quick_move(entity_id entity, uint32_t *act_timeout)
 {
     struct cpn_activity *activity = component_get(entity, COMPONENT_ACTIVITY);
     struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
@@ -172,22 +170,35 @@ void movealg_quick(entity_id entity, uint32_t *act_timeout)
     }
 }
 
-void movealg_pltlamp(entity_id entity)
+void movealg_static_move(entity_id entity, uint8_t possession_tgts)
 {
+    static void (*const possess_funcs[2])(entity_id) = {
+        possess_random_lamp_or_tv,
+        possess_random_cam
+    };
     struct cpn_activity *activity = component_get(entity, COMPONENT_ACTIVITY);
     struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
 
     if (activity->lvl >= randnum(MAX_ACTIVITY_LVL) && slot->type == SLOT_NONE) {
-        possess_random_lamp_or_tv(entity);
+        uint8_t options = 0;
+
+        if (possession_tgts & PT_LAMP_TV)
+            options++;
+        if (possession_tgts & PT_CAM)
+            options++;
+        
+        uint8_t option = randidx(options);
+
+        possess_funcs[option](entity);
     }
 }
 
-void movealg_pltcam(entity_id entity)
+void movealg_reset_route(entity_id entity)
 {
-    struct cpn_activity *activity = component_get(entity, COMPONENT_ACTIVITY);
-    struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
+    struct cpn_readiness *readiness = component_get(entity, COMPONENT_READINESS);
 
-    if (activity->lvl >= randnum(MAX_ACTIVITY_LVL) && slot->type == SLOT_NONE) {
-        possess_random_cam(entity);
+    if (readiness) {
+        readiness->degree = 0;
     }
+    slot_release(entity);
 }
