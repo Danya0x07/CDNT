@@ -37,7 +37,7 @@ static void start_drawings_route(entity_id entity)
 static bool possess_closest_lamp(entity_id entity)
 {
     struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
-    enum room_light rls[2];
+    enum room_lamp rls[2];
 
     find_closest_lamps(slot->idx, rls);
     uint8_t nfree = slots_filter_free(SLOT_LAMP, rls, 2);
@@ -51,7 +51,7 @@ static bool possess_closest_lamp(entity_id entity)
 
 static void possess_random_lamp_or_tv(entity_id entity)
 {
-    enum room_light rls[NUM_OF_ROOM_LIGHTS] = {
+    enum room_lamp rls[NUM_OF_ROOM_LIGHTS] = {
         RL_R3_DESK,
         RL_R4_FLOOR,
         RL_R6_DESK,
@@ -75,8 +75,8 @@ static void possess_random_lamp_or_tv(entity_id entity)
 
 static void possess_random_cam(entity_id entity)
 {
-    enum camera_light cams[NUM_OF_CAMS - 1] = 
-        {CAM_L1, CAM_L2, CAM_L3, CAM_L4, CAM_L5, CAM_L6, CAM_L7};
+    enum camera_no cams[NUM_OF_CAMS - 1] = 
+        {CAM1, CAM2, CAM3, CAM4, CAM5, CAM6, CAM7};
     uint8_t nfree = slots_filter_free(SLOT_CAM, cams, NUM_OF_CAMS - 1);
 
     slot_occupy(entity, SLOT_CAM, cams[randidx(nfree)]);

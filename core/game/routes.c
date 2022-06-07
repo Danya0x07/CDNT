@@ -86,7 +86,7 @@ enum drawing route_read_next(enum route_variant route, enum drawing current)
     return pgm_read_byte(pgm_read_word(&routes[route]) + current);
 }
 
-uint8_t find_closest_lamps(enum drawing d, enum room_light *rl)
+uint8_t find_closest_lamps(enum drawing d, enum room_lamp *rl)
 {
     uint8_t nlamps = 0;
 
@@ -147,7 +147,7 @@ static const PROGMEM enum drawing dr_next_to_rl[NUM_OF_ROOM_LIGHTS][3] = {
     [RL_R7_FLOOR] = {DRAWING_R7B, DRAWING_R7F, DRAWING_R2R}
 };
 
-void find_drawings_nearby(enum room_light rl, enum drawing *d)
+void find_drawings_nearby(enum room_lamp rl, enum drawing *d)
 {
     d[0] = pgm_read_byte(&dr_next_to_rl[rl][0]);
     d[1] = pgm_read_byte(&dr_next_to_rl[rl][1]);

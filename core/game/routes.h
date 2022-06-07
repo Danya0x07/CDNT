@@ -13,7 +13,7 @@ enum __attribute__((packed)) route_variant {
 };
 
 enum drawing route_read_next(enum route_variant rvar, enum drawing current);
-uint8_t find_closest_lamps(enum drawing d, enum room_light *rl);
-void find_drawings_nearby(enum room_light rl, enum drawing *d);
+uint8_t find_closest_lamps(enum drawing d, enum room_lamp *rl);
+void find_drawings_nearby(enum room_lamp rl, enum drawing *d);
 
 #endif // _CORE_GAME_ROUTES_H

@@ -299,7 +299,7 @@ void test_house(void)
 
     house_reset();
 
-    for (enum ceiling_light ceiling = CEILING_L1; ceiling <= CEILING_L7; ceiling++) {
+    for (enum ceiling_no ceiling = CEILING1; ceiling <= CEILING7; ceiling++) {
         ceiling_light_set(ceiling, 1);
         house_update();
         ms_wait(500);
@@ -308,18 +308,18 @@ void test_house(void)
         ms_wait(500);
     }
 
-    for (enum room_light lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
-        room_light_set(lamp, 1);
+    for (enum room_lamp lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
+        lamp_light_set(lamp, 1);
     }
     house_update();
     ms_wait(1000);
 
-    for (enum room_light lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
-        room_light_set(lamp, 0);
+    for (enum room_lamp lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
+        lamp_light_set(lamp, 0);
     }
     house_update();
 
-    for (enum camera_light cam = CAM_L1; cam <= CAM_LP; cam++) {
+    for (enum camera_no cam = CAM1; cam <= CAMP; cam++) {
         camera_light_set(cam, CAM_MODE_W);
         house_update();
         ms_wait(500);
@@ -331,16 +331,16 @@ void test_house(void)
         ms_wait(500);
     }
 
-    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_W);
-    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_UV);
+    flash_light_set(FLASH_L, FLASH_MODE_W);
+    flash_light_set(FLASH_R, FLASH_MODE_UV);
     house_update();
     ms_wait(500);
-    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_UV);
-    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_W);
+    flash_light_set(FLASH_L, FLASH_MODE_UV);
+    flash_light_set(FLASH_R, FLASH_MODE_W);
     house_update();
     ms_wait(500);
-    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_OFF);
-    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_OFF);
+    flash_light_set(FLASH_L, FLASH_MODE_OFF);
+    flash_light_set(FLASH_R, FLASH_MODE_OFF);
     house_update();
     ms_wait(500);
 
@@ -372,17 +372,17 @@ void test_house_masking(void)
 
     house_reset();
 
-    for (enum ceiling_light ceiling = CEILING_L1; ceiling <= CEILING_L7; ceiling++) {
+    for (enum ceiling_no ceiling = CEILING1; ceiling <= CEILING7; ceiling++) {
         ceiling_light_set(ceiling, 1);
     }
-    for (enum room_light lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
-        room_light_set(lamp, 1);
+    for (enum room_lamp lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
+        lamp_light_set(lamp, 1);
     }
-    for (enum camera_light cam = CAM_L1; cam <= CAM_LP; cam++) {
+    for (enum camera_no cam = CAM1; cam <= CAMP; cam++) {
         camera_light_set(cam, CAM_MODE_UV);
     }
-    flash_light_set(FLASH_LIGHT_L, FLASH_MODE_W);
-    flash_light_set(FLASH_LIGHT_R, FLASH_MODE_UV);
+    flash_light_set(FLASH_L, FLASH_MODE_W);
+    flash_light_set(FLASH_R, FLASH_MODE_UV);
     for (enum drawing drawing = DRAWING_R1L; drawing <= DRAWING_RPM; drawing++) {
         drawing_set(drawing, DCOLOR_WHITE);
     }

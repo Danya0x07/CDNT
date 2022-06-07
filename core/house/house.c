@@ -203,19 +203,19 @@ static void set_bit(uint8_t *memblock, uint8_t shift, bool status)
     }
 }
 
-void ceiling_light_set(enum ceiling_light id, bool status)
+void ceiling_light_set(enum ceiling_no id, bool status)
 {
     uint8_t shift = pgm_read_byte(&ceiling_lights[id]);
     set_bit(lamps_memblock, shift, status);
 }
 
-void room_light_set(enum room_light id, bool status)
+void lamp_light_set(enum room_lamp id, bool status)
 {
     uint8_t shift = pgm_read_byte(&room_lights[id]);
     set_bit(lamps_memblock, shift, status);
 }
 
-void camera_light_set(enum camera_light id, enum camera_mode mode)
+void camera_light_set(enum camera_no id, enum camera_mode mode)
 {
     uint8_t shift_w = pgm_read_byte(&camera_lights[id][0]);
     uint8_t shift_uv = pgm_read_byte(&camera_lights[id][1]);
@@ -224,7 +224,7 @@ void camera_light_set(enum camera_light id, enum camera_mode mode)
     set_bit(lamps_memblock, shift_uv, !!(mode & 0b10));
 }
 
-void flash_light_set(enum flash_light id, enum flash_mode mode)
+void flash_light_set(enum flash id, enum flash_mode mode)
 {
     uint8_t shift_w = pgm_read_byte(&flash_lights[id][0]);
     uint8_t shift_uv = pgm_read_byte(&flash_lights[id][1]);
