@@ -3,6 +3,7 @@
 #include "movealg.h"
 #include "components.h"
 #include "randnum.h"
+#include "serial.h"
 
 static void start_drawings_route(entity_id entity)
 {
@@ -51,7 +52,7 @@ static bool possess_closest_lamp(entity_id entity)
 
 static void possess_random_lamp_or_tv(entity_id entity)
 {
-    enum room_lamp rls[NUM_OF_ROOM_LIGHTS] = {
+    enum room_lamp rls[NUM_OF_ROOM_LAMPS] = {
         RL_R3_DESK,
         RL_R4_FLOOR,
         RL_R6_DESK,
@@ -59,7 +60,7 @@ static void possess_random_lamp_or_tv(entity_id entity)
         RL_R7_DESK,
         RL_R7_FLOOR,
     };
-    uint8_t nfree = slots_filter_free(SLOT_LAMP, rls, NUM_OF_ROOM_LIGHTS);
+    uint8_t nfree = slots_filter_free(SLOT_LAMP, rls, NUM_OF_ROOM_LAMPS);
     uint8_t slot_idx = 0;
 
     if (slots_filter_free(SLOT_TV, &slot_idx, 1))
@@ -67,7 +68,7 @@ static void possess_random_lamp_or_tv(entity_id entity)
     
     slot_idx = randidx(nfree);
 
-    if (slot_idx < NUM_OF_ROOM_LIGHTS)
+    if (slot_idx < NUM_OF_ROOM_LAMPS)
         slot_occupy(entity, SLOT_LAMP, slot_idx);
     else
         slot_occupy(entity, SLOT_TV, 0);
@@ -166,11 +167,12 @@ void movealg_quick_move(entity_id entity, uint32_t *act_timeout)
             readiness->degree++;
             if (readiness->degree >= NUM_OF_QUICK_MOVE_PREPARE_DEGREES)
                 *act_timeout = ACTION_TIMEOUT_QUICK;
+            serial_print_dec(*act_timeout);
         }
     }
 }
 
-void movealg_static_move(entity_id entity, uint8_t possession_tgts)
+void movealg_static_move(entity_id entity, enum possession_tgt tgt)
 {
     static void (*const possess_funcs[2])(entity_id) = {
         possess_random_lamp_or_tv,
@@ -180,16 +182,7 @@ void movealg_static_move(entity_id entity, uint8_t possession_tgts)
     struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
 
     if (activity->lvl >= randnum(MAX_ACTIVITY_LVL) && slot->type == SLOT_NONE) {
-        uint8_t options = 0;
-
-        if (possession_tgts & PT_LAMP_TV)
-            options++;
-        if (possession_tgts & PT_CAM)
-            options++;
-        
-        uint8_t option = randidx(options);
-
-        possess_funcs[option](entity);
+        possess_funcs[tgt](entity);
     }
 }
 

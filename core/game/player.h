@@ -19,7 +19,7 @@ struct player_request {
         PR_PAUSE
     } type;
     union {
-        enum ceiling_no ceiling;
+        enum ceiling ceiling;
         enum room_lamp lamp;
         enum camera_no cam;
     };

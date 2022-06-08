@@ -1,8 +1,9 @@
 #include "player.h"
+#include <serial.h>
 
 struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera_no cam)
 {
-    struct player_request pr;
+    struct player_request pr = {.type = PR_NOTHING};
     uint8_t btn_pressed = PRESSED_BUTTON(btnev);
     uint8_t btn_released = RELEASED_BUTTON(btnev);
 
@@ -14,7 +15,7 @@ struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum c
             pr.type = PR_SELECT_CAM;
         }
     } else if (btn_released) {
-        pr.cam = btn_pressed - 1;
+        pr.cam = btn_released - 1;
         if (pr.cam == cam) {
             pr.type = PR_UV_OFF;
         }
@@ -36,7 +37,7 @@ struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum c
                 pr.type = PR_UVFLASH;
             } else {
                 pr.type = PR_CEILING_TG;
-                pr.ceiling = (enum ceiling_no)cam;
+                pr.ceiling = (enum ceiling)cam;
             }
             break;
         
@@ -85,6 +86,7 @@ struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum c
                 case CAM4:
                     pr.type = PR_LAMP_OFF;
                     pr.lamp = RL_R4_FLOOR;
+                    break;
                 
                 case CAM6:
                     pr.type = PR_LAMP_OFF;

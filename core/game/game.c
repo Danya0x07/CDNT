@@ -8,6 +8,8 @@
 #include "camera.h"
 #include "moves.h"
 #include "setup.h"
+#include "view.h"
+#include "serial.h"
 
 uint8_t __hour = 12;
 uint8_t __pwr_consumption = 0;
@@ -23,7 +25,7 @@ static enum flash get_flash_for_uv_entity(void)
 
 static void check_kicked_poltergeists(void)
 {
-    for (enum ceiling_no c_no = CEILING1; c_no < NUM_OF_CEILINGS; c_no++) {
+    for (enum ceiling c_no = CEILING1; c_no < NUM_OF_CEILINGS; c_no++) {
         if (ceiling_get(c_no)) {
             entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera_no)c_no);
             if (entity) {
@@ -41,6 +43,7 @@ bool game_is_active(void)
 void game_enter(struct game_input *params)
 {
     if (params->action == ACTION_NEW_GAME) {
+        house_reset();
         setup_entities(params->night_no);
         ceilings_off();
         flashes_reset();
@@ -139,7 +142,7 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
     check_kicked_poltergeists();
 
     // Update view
-
+    view_update_lights();
 }
 
 void game_get_results(struct game_output *results)

@@ -203,7 +203,7 @@ static void set_bit(uint8_t *memblock, uint8_t shift, bool status)
     }
 }
 
-void ceiling_light_set(enum ceiling_no id, bool status)
+void ceiling_light_set(enum ceiling id, bool status)
 {
     uint8_t shift = pgm_read_byte(&ceiling_lights[id]);
     set_bit(lamps_memblock, shift, status);
@@ -233,7 +233,7 @@ void flash_light_set(enum flash id, enum flash_mode mode)
     set_bit(lamps_memblock, shift_uv, !!(mode & 0b10));
 }
 
-void drawing_set(enum drawing d, enum drawing_color c)
+void drawing_light_set(enum drawing d, enum drawing_color c)
 {
     uint8_t shift_r = pgm_read_byte(&drawings[d][0]);
     uint8_t shift_g = pgm_read_byte(&drawings[d][1]);
@@ -244,7 +244,7 @@ void drawing_set(enum drawing d, enum drawing_color c)
     set_bit(drawings_memblock, shift_b, !!(c & 0b100));
 }
 
-void tv_set(bool status)
+void tv_noise_set(bool status)
 {
     tv_status = status;
 }

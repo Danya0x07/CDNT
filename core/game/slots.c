@@ -3,7 +3,7 @@
 #include <house.h>
 
 static entity_id drawing_slots[NUM_OF_DRAWINGS] = {NO_ENTITY};
-static entity_id lamp_slots[NUM_OF_ROOM_LIGHTS] = {NO_ENTITY};
+static entity_id lamp_slots[NUM_OF_ROOM_LAMPS] = {NO_ENTITY};
 static entity_id cam_slots[NUM_OF_CAMS] = {NO_ENTITY};
 static entity_id tv_slot = NO_ENTITY;
 

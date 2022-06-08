@@ -299,7 +299,7 @@ void test_house(void)
 
     house_reset();
 
-    for (enum ceiling_no ceiling = CEILING1; ceiling <= CEILING7; ceiling++) {
+    for (enum ceiling ceiling = CEILING1; ceiling <= CEILING7; ceiling++) {
         ceiling_light_set(ceiling, 1);
         house_update();
         ms_wait(500);
@@ -345,23 +345,23 @@ void test_house(void)
     ms_wait(500);
 
     for (enum drawing drawing = DRAWING_R1L; drawing <= DRAWING_RPM; drawing++) {
-        drawing_set(drawing, DCOLOR_WHITE);
+        drawing_light_set(drawing, DCOLOR_WHITE);
         house_update();
         ms_wait(500);
-        drawing_set(drawing, DCOLOR_OFF);
+        drawing_light_set(drawing, DCOLOR_OFF);
     }
     house_update();
 
-    tv_set(1);
+    tv_noise_set(1);
     house_update();
     ms_wait(1000);
-    tv_set(0);
+    tv_noise_set(0);
     house_update();
     ms_wait(1000);
-    tv_set(1);
+    tv_noise_set(1);
     house_update();
     ms_wait(1000);
-    tv_set(0);
+    tv_noise_set(0);
     house_update();
     ms_wait(1000);
 }
@@ -372,7 +372,7 @@ void test_house_masking(void)
 
     house_reset();
 
-    for (enum ceiling_no ceiling = CEILING1; ceiling <= CEILING7; ceiling++) {
+    for (enum ceiling ceiling = CEILING1; ceiling <= CEILING7; ceiling++) {
         ceiling_light_set(ceiling, 1);
     }
     for (enum room_lamp lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
@@ -384,9 +384,9 @@ void test_house_masking(void)
     flash_light_set(FLASH_L, FLASH_MODE_W);
     flash_light_set(FLASH_R, FLASH_MODE_UV);
     for (enum drawing drawing = DRAWING_R1L; drawing <= DRAWING_RPM; drawing++) {
-        drawing_set(drawing, DCOLOR_WHITE);
+        drawing_light_set(drawing, DCOLOR_WHITE);
     }
-    tv_set(1);
+    tv_noise_set(1);
 
     uint8_t masks[8] = 
         {MASK_ROOM1, MASK_ROOM2, MASK_ROOM3, MASK_ROOM4,

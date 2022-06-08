@@ -51,12 +51,12 @@ static void yellow_move_cb(void)
 
 static void red_move_cb(void)
 {
-    entity_move(ENTITY_RED, NULL);
+    entity_move(ENTITY_RED, &tmev_red_move.timeout);
 }
 
 static void blue_move_cb(void)
 {
-    entity_move(ENTITY_UV, &tmev_blue_move.timeout);
+    entity_move(ENTITY_UV, NULL);
 }
 
 static void pltlamp_move_cb(void)

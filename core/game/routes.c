@@ -138,7 +138,7 @@ uint8_t find_closest_lamps(enum drawing d, enum room_lamp *rl)
     return nlamps;
 }
 
-static const PROGMEM enum drawing dr_next_to_rl[NUM_OF_ROOM_LIGHTS][3] = {
+static const PROGMEM enum drawing dr_next_to_rl[NUM_OF_ROOM_LAMPS][3] = {
     [RL_R3_DESK]  = {DRAWING_R3R, DRAWING_R3L, DRAWING_R4L},
     [RL_R4_FLOOR] = {DRAWING_R4L, DRAWING_R4R, DRAWING_R5M},
     [RL_R6_DESK]  = {DRAWING_R6R, DRAWING_R6L, DRAWING_RPL},

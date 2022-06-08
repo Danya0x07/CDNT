@@ -7,8 +7,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-enum __attribute__((packed)) ceiling_no {
-    CEILING1,
+enum __attribute__((packed)) ceiling {
+    _CEILING_FIRST = 0,
+
+    CEILING1 = _CEILING_FIRST,
     CEILING2,
     CEILING3,
     CEILING4,
@@ -20,14 +22,16 @@ enum __attribute__((packed)) ceiling_no {
 };
 
 enum __attribute__((packed)) room_lamp {
-    RL_R3_DESK,
+    _RL_FIRST = 0,
+
+    RL_R3_DESK = _RL_FIRST,
     RL_R4_FLOOR,
     RL_R6_DESK,
     RL_R6_FLOOR,
     RL_R7_DESK,
     RL_R7_FLOOR,
 
-    NUM_OF_ROOM_LIGHTS
+    NUM_OF_ROOM_LAMPS
 };
 
 enum __attribute__((packed)) camera_no {
@@ -41,7 +45,9 @@ enum __attribute__((packed)) flash {
 };
 
 enum __attribute__((packed)) drawing {
-    DRAWING_R1L,
+    _DRAWING_FIRST = 0,
+
+    DRAWING_R1L = _DRAWING_FIRST,
     DRAWING_R1R,
     DRAWING_R2L,
     DRAWING_R2R,
@@ -101,12 +107,12 @@ enum __attribute__((packed)) {
 #define OFF  false
 #define ON   true
 
-void ceiling_light_set(enum ceiling_no id, bool status);
+void ceiling_light_set(enum ceiling id, bool status);
 void lamp_light_set(enum room_lamp id, bool status);
 void camera_light_set(enum camera_no id, enum camera_mode mode);
 void flash_light_set(enum flash id, enum flash_mode mode);
-void drawing_set(enum drawing d, enum drawing_color c);
-void tv_set(bool status);
+void drawing_light_set(enum drawing d, enum drawing_color c);
+void tv_noise_set(bool status);
 
 void room_mask_set(uint8_t mask);
 

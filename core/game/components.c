@@ -4,7 +4,11 @@
 
 static struct cpn_activity activities[5];
 static struct cpn_possessivity posessivities[1];
-static struct cpn_view views[3];
+static struct cpn_view views[3] = {
+    {.visibility = VISIBILITY_W, .color = DCOLOR_YELLOW},
+    {.visibility = VISIBILITY_UV, .color = DCOLOR_BLUE},
+    {.visibility = VISIBILITY_W, .color = DCOLOR_RED},
+};
 static struct cpn_slot slots[5];
 static struct cpn_route routes[3];
 static struct cpn_readiness readinesses[1];

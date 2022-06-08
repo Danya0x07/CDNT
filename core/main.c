@@ -46,7 +46,7 @@ int main(void)
     setup();
 
     scene_enter(&intro_scene);
-    loop_timeout_scene(650);
+    //loop_timeout_scene(650);
 
     menu_enter(&main_menu);
 
