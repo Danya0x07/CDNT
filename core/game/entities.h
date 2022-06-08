@@ -5,7 +5,8 @@
 
 typedef enum __attribute__((packed)) {
     NO_ENTITY = 0,
-    ENTITY_YELLOW,
+    _ENTITY_FIRST,
+    ENTITY_YELLOW = _ENTITY_FIRST,
     ENTITY_UV,
     ENTITY_RED,
     ENTITY_PLTLAMP,

@@ -4,6 +4,7 @@
 #include <house.h>
 #include "tmev.h"
 
+void flashes_reset(void);
 bool flash_shoot(enum flash flash, enum flash_mode mode);
 enum flash_mode flash_get(enum flash flash);
 

@@ -6,6 +6,7 @@
 #include <iev.h>
 
 struct game_input {
+    uint32_t moment;
     enum __attribute__((packed)) {
         ACTION_NEW_GAME,
         ACTION_CONTINUE
