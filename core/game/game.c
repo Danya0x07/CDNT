@@ -12,13 +12,18 @@
 
 uint8_t __hour = 12;
 uint8_t __pwr_consumption = 0;
-uint8_t __score = 0;
+uint8_t score = 0;
 
+static bool pause_requested = false;
+static uint8_t night_no;
+
+static bool night_completed(void);
+static bool night_failed(void);
 static void check_kicked_cam_possessors(void);
 
 bool game_is_active(void)
 {
-    return slot_is_free(SLOT_DRAWING, DRAWING_RPM);
+    return !pause_requested && !night_completed() && !night_failed();
 }
 
 void game_enter(struct game_input *params)
@@ -29,6 +34,7 @@ void game_enter(struct game_input *params)
         ceilings_off();
         flashes_reset();
         camera_select(CAMP);
+        night_no = params->night_no;
     }
     
     timeout_event_init(&tmev_yellow_move, params->moment);
@@ -36,6 +42,8 @@ void game_enter(struct game_input *params)
     timeout_event_init(&tmev_red_move, params->moment);
     timeout_event_init(&tmev_pltlamp_move, params->moment);
     timeout_event_init(&tmev_pltcam_move, params->moment);
+
+    pause_requested = false;
 }
 
 void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
@@ -105,6 +113,7 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
             break;
         
         case PR_PAUSE:
+            pause_requested = true;
             break;
     }
 
@@ -128,7 +137,26 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
 
 void game_get_results(struct game_output *results)
 {
-    
+    if (pause_requested) {
+        results->status = GS_PAUSE;
+    } else if (night_completed()) {
+        results->status = GS_NIGHT_COMPLETED;
+    } else {
+        results->status = GS_NIGHT_FAILED;
+    }
+    results->night_no = night_no;
+    results->hour = __hour; // TODO: clock
+    results->score = score;
+}
+
+static bool night_completed(void)
+{
+    return false; // TODO: clock
+}
+
+static bool night_failed(void)
+{
+    return !slot_is_free(SLOT_DRAWING, DRAWING_RPM);
 }
 
 static void check_kicked_cam_possessors(void)
