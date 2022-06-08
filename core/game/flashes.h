@@ -7,6 +7,7 @@
 void flashes_reset(void);
 bool flash_shoot(enum flash flash, enum flash_mode mode);
 enum flash_mode flash_get(enum flash flash);
+enum flash get_flash_for_uv_entity(void);
 
 extern struct timeout_event tmev_flash_off;
 extern struct timeout_event tmev_lflash_recharge;

@@ -3,7 +3,6 @@
 #include "movealg.h"
 #include "components.h"
 #include "randnum.h"
-#include "serial.h"
 
 static void start_drawings_route(entity_id entity)
 {
@@ -167,7 +166,6 @@ void movealg_quick_move(entity_id entity, uint32_t *act_timeout)
             readiness->degree++;
             if (readiness->degree >= NUM_OF_QUICK_MOVE_PREPARE_DEGREES)
                 *act_timeout = ACTION_TIMEOUT_QUICK;
-            serial_print_dec(*act_timeout);
         }
     }
 }

@@ -9,31 +9,12 @@
 #include "moves.h"
 #include "setup.h"
 #include "view.h"
-#include "serial.h"
 
 uint8_t __hour = 12;
 uint8_t __pwr_consumption = 0;
 uint8_t __score = 0;
 
-static enum flash get_flash_for_uv_entity(void)
-{
-    if (slot_get_occupier(SLOT_DRAWING, DRAWING_RPL) == ENTITY_UV)
-        return FLASH_L;
-    else
-        return FLASH_R;
-}
-
-static void check_kicked_poltergeists(void)
-{
-    for (enum ceiling c_no = CEILING1; c_no < NUM_OF_CEILINGS; c_no++) {
-        if (ceiling_get(c_no)) {
-            entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera_no)c_no);
-            if (entity) {
-                entity_kick_away(entity);
-            }
-        }
-    }
-}
+static void check_kicked_cam_possessors(void);
 
 bool game_is_active(void)
 {
@@ -139,7 +120,7 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
     timeout_event_check(&tmev_pltcam_move, t);
 
     // Process game data
-    check_kicked_poltergeists();
+    check_kicked_cam_possessors();
 
     // Update view
     view_update_lights();
@@ -150,3 +131,14 @@ void game_get_results(struct game_output *results)
     
 }
 
+static void check_kicked_cam_possessors(void)
+{
+    for (enum ceiling c_no = CEILING1; c_no < NUM_OF_CEILINGS; c_no++) {
+        if (ceiling_get(c_no)) {
+            entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera_no)c_no);
+            if (entity) {
+                entity_kick_away(entity);
+            }
+        }
+    }
+}

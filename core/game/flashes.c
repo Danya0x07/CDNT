@@ -1,5 +1,6 @@
 #include "flashes.h"
 #include "entities.h"
+#include "components.h"
 #include "slots.h"
 #include <config.h>
 
@@ -30,24 +31,34 @@ enum flash_mode flash_get(enum flash flash)
     return modes[flash];
 }
 
-static void kick_if_present(entity_id entity, enum flash flash)
+static void kick_entity_if_present(entity_id entity, enum flash flash)
 {
-    if (modes[flash] == FLASH_MODE_W) {
-        if (entity == ENTITY_YELLOW || entity == ENTITY_RED) {
-            entity_kick_away(entity);
-        }
-    } else if (modes[flash] == FLASH_MODE_UV) {
-        if (entity == ENTITY_UV) {
-            entity_kick_away(entity);
-        }
+    struct cpn_view *view = component_get(entity, COMPONENT_VIEW);
+
+    if (!view)
+        return;
+
+    if (
+        (modes[flash] == FLASH_MODE_W && view->visibility == VISIBILITY_W) ||
+        (modes[flash] == FLASH_MODE_UV && view->visibility == VISIBILITY_UV)
+    ) {
+        entity_kick_away(entity);
     }
 }
 
 static void flash_off_cb(void)
 {
-    kick_if_present(slot_get_occupier(SLOT_DRAWING, DRAWING_RPL), FLASH_L);
-    kick_if_present(slot_get_occupier(SLOT_DRAWING, DRAWING_RPR), FLASH_R);
+    kick_entity_if_present(slot_get_occupier(SLOT_DRAWING, DRAWING_RPL), FLASH_L);
+    kick_entity_if_present(slot_get_occupier(SLOT_DRAWING, DRAWING_RPR), FLASH_R);
     modes[FLASH_L] = modes[FLASH_R] = FLASH_MODE_OFF;
+}
+
+enum flash get_flash_for_uv_entity(void)
+{
+    if (slot_get_occupier(SLOT_DRAWING, DRAWING_RPL) == ENTITY_UV)
+        return FLASH_L;
+    else
+        return FLASH_R;
 }
 
 static void lflash_recharge_cb(void)

@@ -52,16 +52,19 @@ void view_update_lights(void)
     flash_light_set(FLASH_L, flash_get(FLASH_L));
     flash_light_set(FLASH_R, flash_get(FLASH_R));
 
-    enum camera_no cam;
-
-    for (cam = CAM1; cam < NUM_OF_CAMS; cam++) {
+    for (enum camera_no cam = CAM1; cam < NUM_OF_CAMS; cam++) {
         if (camera_get_no() == cam)
             camera_light_set(cam, camera_get_mode());
         else
             camera_light_set(cam, CAM_MODE_OFF);
     }
-    cam = camera_get_no();
-    room_mask_set((1 << cam) * slot_is_free(SLOT_CAM, cam));
+
+    enum camera_no cam = camera_get_no();
+    if (slot_is_free(SLOT_CAM, cam)) {
+        room_mask_set(1 << cam);
+    } else {
+        room_mask_set(0);
+    }
 
     house_update();
 }
