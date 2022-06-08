@@ -9,10 +9,10 @@
 #include "moves.h"
 #include "setup.h"
 #include "view.h"
+#include "score.h"
 
 uint8_t __hour = 12;
 uint8_t __pwr_consumption = 0;
-uint8_t score = 0;
 
 static bool pause_requested = false;
 static uint8_t night_no;
@@ -29,8 +29,9 @@ bool game_is_active(void)
 void game_enter(struct game_input *params)
 {
     if (params->request == GR_NEW_GAME) {
-        house_reset();
         setup_entities(params->night_no);
+        house_reset();
+        score_reset();
         ceilings_off();
         flashes_reset();
         camera_select(CAMP);
@@ -146,7 +147,7 @@ void game_get_results(struct game_output *results)
     }
     results->night_no = night_no;
     results->hour = __hour; // TODO: clock
-    results->score = score;
+    results->score = score_get();
 }
 
 static bool night_completed(void)

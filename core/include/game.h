@@ -21,8 +21,8 @@ struct game_output {
         GS_NIGHT_COMPLETED
     } status;
     uint16_t hour;
+    uint16_t score;
     uint8_t night_no;
-    uint8_t score;
 };
 
 bool game_is_active(void);

@@ -1,8 +1,9 @@
+#include <config.h>
 #include "flashes.h"
 #include "entities.h"
 #include "components.h"
 #include "slots.h"
-#include <config.h>
+#include "score.h"
 
 static enum flash_mode modes[2] = {FLASH_MODE_OFF};
 static bool ready[2] = {true, true};
@@ -43,6 +44,7 @@ static void kick_entity_if_present(entity_id entity, enum flash flash)
         (modes[flash] == FLASH_MODE_UV && view->visibility == VISIBILITY_UV)
     ) {
         entity_kick_away(entity);
+        score_add(1);
     }
 }
 
