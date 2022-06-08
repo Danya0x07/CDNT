@@ -21,7 +21,7 @@ struct menu *pausemenu_exit_next_cb(struct menu *this)
     struct menu_field *field = &this->fields[0];
     struct game_input *gi = this->io;
 
-    gi->action = ACTION_CONTINUE;
+    gi->request = GR_CONTINUE;
     return field->value == CHOICE_CONTINUE ? NULL : &main_menu;
 }
 
@@ -38,9 +38,9 @@ void pausemenu_view_init_cb(struct menu *this)
     gfx_print_ch(77, 30, ':');
     gfx_print_dec(95, 30, go->night_no);
     gfx_print_txt_f(53, 40, txt_hours);
-    gfx_print_dec(95, 40, go->hours_survived);
+    gfx_print_dec(95, 40, go->hour);
     gfx_print_txt_f(53, 50, txt_attacks);
-    gfx_print_dec(95, 50, go->attacks_repelled);
+    gfx_print_dec(95, 50, go->score);
 
     gfx_set_scale(GFX_SCALE_X2);
     gfx_print_txt_f(18, 70, txt_continue);

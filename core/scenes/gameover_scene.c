@@ -19,9 +19,9 @@ void gameover_entrance_cb(const void *arg)
 
     gfx_set_color(GFX_COLOR_RED, GFX_COLOR_BLACK);
     gfx_print_txt_f(0, 80, txt_hours);
-    gfx_print_dec(84, 80, go->hours_survived);
+    gfx_print_dec(84, 80, go->hour);
     gfx_print_txt_f(0, 100, txt_attacks);
-    gfx_print_dec(84, 100, go->attacks_repelled);
+    gfx_print_dec(84, 100, go->score);
 
     music_start(&track_night_failed);
 }

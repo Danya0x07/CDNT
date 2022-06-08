@@ -1,36 +1,36 @@
 #include "camera.h"
 #include "slots.h"
 
-static enum camera_no cam_no = CAMP;
-static enum camera_mode cam_mode = CAM_MODE_W;
+static enum camera cam = CAMP;
+static enum camera_mode mode = CAM_MODE_W;
 
-void camera_select(enum camera_no no)
+void camera_select(enum camera no)
 {
-    cam_no = no;
-    cam_mode = CAM_MODE_W;
+    cam = no;
+    mode = CAM_MODE_W;
 }
 
 void camera_enable_uv(void)
 {
-    cam_mode = CAM_MODE_UV;
+    mode = CAM_MODE_UV;
 }
 
 void camera_disable_uv(void)
 {
-    cam_mode = CAM_MODE_W;
+    mode = CAM_MODE_W;
 }
 
 bool camera_is_working(void)
 {
-    return slot_is_free(SLOT_CAM, cam_no);
+    return slot_is_free(SLOT_CAM, cam);
 }
 
-enum camera_no camera_get_no(void)
+enum camera camera_get_no(void)
 {
-    return cam_no;
+    return cam;
 }
 
 enum camera_mode camera_get_mode(void)
 {
-    return cam_mode;
+    return mode;
 }

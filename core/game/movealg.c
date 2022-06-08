@@ -75,7 +75,7 @@ static void possess_random_lamp_or_tv(entity_id entity)
 
 static void possess_random_cam(entity_id entity)
 {
-    enum camera_no cams[NUM_OF_CAMS - 1] = 
+    enum camera cams[NUM_OF_CAMS - 1] = 
         {CAM1, CAM2, CAM3, CAM4, CAM5, CAM6, CAM7};
     uint8_t nfree = slots_filter_free(SLOT_CAM, cams, NUM_OF_CAMS - 1);
 

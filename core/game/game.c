@@ -23,7 +23,7 @@ bool game_is_active(void)
 
 void game_enter(struct game_input *params)
 {
-    if (params->action == ACTION_NEW_GAME) {
+    if (params->request == GR_NEW_GAME) {
         house_reset();
         setup_entities(params->night_no);
         ceilings_off();
@@ -133,9 +133,9 @@ void game_get_results(struct game_output *results)
 
 static void check_kicked_cam_possessors(void)
 {
-    for (enum ceiling c_no = CEILING1; c_no < NUM_OF_CEILINGS; c_no++) {
-        if (ceiling_get(c_no)) {
-            entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera_no)c_no);
+    for (enum ceiling c = CEILING1; c < NUM_OF_CEILINGS; c++) {
+        if (ceiling_get(c)) {
+            entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera)c);
             if (entity) {
                 entity_kick_away(entity);
             }

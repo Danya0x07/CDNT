@@ -19,7 +19,7 @@ void victory_entrance_cb(const void *arg)
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
     gfx_print_txt_f(0, 100, txt_attacks);
-    gfx_print_dec(84, 100, go->attacks_repelled);
+    gfx_print_dec(84, 100, go->score);
 
     music_start(&track_night_completed);
 }

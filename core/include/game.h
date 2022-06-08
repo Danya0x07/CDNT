@@ -8,9 +8,9 @@
 struct game_input {
     uint32_t moment;
     enum __attribute__((packed)) {
-        ACTION_NEW_GAME,
-        ACTION_CONTINUE
-    } action;
+        GR_NEW_GAME,
+        GR_CONTINUE
+    } request;
     uint8_t night_no;
 };
 
@@ -20,9 +20,9 @@ struct game_output {
         GS_NIGHT_FAILED,
         GS_NIGHT_COMPLETED
     } status;
-    uint16_t hours_survived;
+    uint16_t hour;
     uint8_t night_no;
-    uint8_t attacks_repelled;
+    uint8_t score;
 };
 
 bool game_is_active(void);

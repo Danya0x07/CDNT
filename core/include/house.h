@@ -34,7 +34,7 @@ enum __attribute__((packed)) room_lamp {
     NUM_OF_ROOM_LAMPS
 };
 
-enum __attribute__((packed)) camera_no {
+enum __attribute__((packed)) camera {
     CAM1, CAM2, CAM3, CAM4, CAM5, CAM6, CAM7, CAMP,
     NUM_OF_CAMS
 };
@@ -107,10 +107,10 @@ enum __attribute__((packed)) {
 #define OFF  false
 #define ON   true
 
-void ceiling_light_set(enum ceiling id, bool status);
-void lamp_light_set(enum room_lamp id, bool status);
-void camera_light_set(enum camera_no id, enum camera_mode mode);
-void flash_light_set(enum flash id, enum flash_mode mode);
+void ceiling_light_set(enum ceiling c, bool status);
+void lamp_light_set(enum room_lamp rl, bool status);
+void camera_light_set(enum camera c, enum camera_mode mode);
+void flash_light_set(enum flash f, enum flash_mode mode);
 void drawing_light_set(enum drawing d, enum drawing_color c);
 void tv_noise_set(bool status);
 

@@ -21,10 +21,10 @@ struct player_request {
     union {
         enum ceiling ceiling;
         enum room_lamp lamp;
-        enum camera_no cam;
+        enum camera cam;
     };
 };
 
-struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera_no cam);
+struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera cam);
 
 #endif // _CORE_GAME_PLAYER_H

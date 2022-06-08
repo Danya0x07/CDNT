@@ -276,8 +276,8 @@ void test_scenes(void)
 
     input.night_no = 4;
     output.night_no = 4;
-    output.attacks_repelled = 143;
-    output.hours_survived = 3;
+    output.score = 143;
+    output.hour = 3;
     
     scene_enter(&intro_scene);
     loop_timeout_scene();
@@ -319,7 +319,7 @@ void test_house(void)
     }
     house_update();
 
-    for (enum camera_no cam = CAM1; cam <= CAMP; cam++) {
+    for (enum camera cam = CAM1; cam <= CAMP; cam++) {
         camera_light_set(cam, CAM_MODE_W);
         house_update();
         ms_wait(500);
@@ -378,7 +378,7 @@ void test_house_masking(void)
     for (enum room_lamp lamp = RL_R3_DESK; lamp <= RL_R7_FLOOR; lamp++) {
         lamp_light_set(lamp, 1);
     }
-    for (enum camera_no cam = CAM1; cam <= CAMP; cam++) {
+    for (enum camera cam = CAM1; cam <= CAMP; cam++) {
         camera_light_set(cam, CAM_MODE_UV);
     }
     flash_light_set(FLASH_L, FLASH_MODE_W);

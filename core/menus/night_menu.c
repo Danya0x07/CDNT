@@ -21,7 +21,7 @@ static struct menu *nightmenu_exit_next_cb(struct menu *this)
     struct menu_field *field = &this->fields[0];
     struct game_input *gi = this->io;
 
-    gi->action = ACTION_NEW_GAME;
+    gi->request = GR_NEW_GAME;
     gi->night_no = field->value;
 
     return NULL;

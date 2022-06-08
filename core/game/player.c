@@ -1,7 +1,7 @@
 #include "player.h"
 #include <serial.h>
 
-struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera_no cam)
+struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera cam)
 {
     struct player_request pr = {.type = PR_NOTHING};
     uint8_t btn_pressed = PRESSED_BUTTON(btnev);
