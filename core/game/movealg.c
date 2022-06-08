@@ -157,6 +157,8 @@ void movealg_quick_move(entity_id entity, uint32_t *act_timeout)
 
     if (slot->type == SLOT_DRAWING && readiness->degree >= NUM_OF_QUICK_MOVE_PREPARE_DEGREES) {
         move_to_next_drawing(entity);
+        if (slot->idx == DRAWING_RPL || slot->idx == DRAWING_RPR)
+            *act_timeout = ACTION_TIMEOUT_QUICK * QUICK_LAST_MOVE_TIMEOUT_MULTIPLIER;
     } else if (activity->lvl >= randnum(MAX_ACTIVITY_LVL)) {
         if (slot->type == SLOT_NONE) { 
             start_drawings_route(entity);
