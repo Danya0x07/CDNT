@@ -130,8 +130,11 @@ void transit(void)
             break;
 
         case STATE_PLAYING:
+            game_get_results(&gout);
             if (gout.status == GS_PAUSE) {
+                pause_menu.io = &gout;
                 menu_enter(&pause_menu);
+                pause_menu.io = &gin;
                 state = STATE_MENU;
             } else if (gout.status == GS_NIGHT_FAILED) {
                 scene_enter(&gameover_scene);

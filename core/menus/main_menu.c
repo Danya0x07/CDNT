@@ -5,6 +5,7 @@
 #include <music.h>
 #include <tracks.h>
 #include <graphics.h>
+#include <house.h>
 
 #include <avr/pgmspace.h>
 
@@ -39,6 +40,7 @@ struct menu *mainmenu_exit_next_cb(struct menu *this)
 
 void mainmenu_view_init_cb(struct menu *this)
 {
+    house_reset();
     gfx_clear();
     
     gfx_set_color(GFX_COLOR_GREEN, GFX_COLOR_BLACK);
