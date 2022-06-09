@@ -8,6 +8,8 @@ const PROGMEM char txt_version[] = "v" VERSION;
 
 const PROGMEM char txt_gameover_cmt[] = "x_x";
 const PROGMEM char txt_victory_cmt[] = "^_^";
+const PROGMEM char txt_custom_night[] = "Custom night";
+const PROGMEM char txt_setup[] = "setup";
 
 const PROGMEM char txt_play[] = "Играть";
 const PROGMEM char txt_instructions[] = "Инструкция";

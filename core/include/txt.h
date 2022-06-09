@@ -10,6 +10,8 @@ extern const char txt_developer[];
 extern const char txt_version[];
 extern const char txt_gameover_cmt[];
 extern const char txt_victory_cmt[];
+extern const char txt_custom_night[];
+extern const char txt_setup[];
 
 // Language-dependent text labels.
 extern const char txt_play[];

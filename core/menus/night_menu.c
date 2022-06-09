@@ -1,15 +1,34 @@
 #include <menus.h>
 #include <txt.h>
+#include <img.h>
 #include <game.h>
 #include <music.h>
 #include <tracks.h>
 #include <graphics.h>
 
-#include <avr/pgmspace.h>
-
 extern void mainmenu_entrance_cb(struct menu *this);
-extern void mainmenu_value_change_cb(struct menu *this);
 extern void mainmenu_view_deinit_cb(struct menu *this);
+
+static void nightmenu_value_change_cb(struct menu *this)
+{
+    static bool setup_menu_available = false;
+    static uint8_t last_value = 1;
+    static uint8_t try_count = 0;
+    struct menu_field *field = &this->fields[0];
+
+    if (!setup_menu_available && field->value != last_value) {
+        if (last_value == 5 && field->value == 1) {
+            try_count++;
+            if (try_count >= 3) {
+                field->min = 0;
+                setup_menu_available = true;
+            }
+        }
+        last_value = field->value;
+    }
+
+    music_play(&track_value_change);
+}
 
 static struct menu *nightmenu_exit_prev_cb(struct menu *this)
 {
@@ -24,30 +43,17 @@ static struct menu *nightmenu_exit_next_cb(struct menu *this)
     gi->request = GR_NEW_GAME;
     gi->night_no = field->value;
 
-    return NULL;
+    return field->value ? NULL : &setup_menu;
 }
 
 static void nightmenu_view_init_cb(struct menu *this)
 {
-    static const PROGMEM uint8_t arrowup_bm[5] = {0x40, 0x20, 0x10, 0x20, 0x40};
-    static const struct gfx_image arrowup = {
-        .bitmap = arrowup_bm,
-        .height = 8,
-        .width = 5
-    };
-
-    static const PROGMEM uint8_t arrowdown_bm[5] = {0x01, 0x02, 0x04, 0x02, 0x01};
-    static const struct gfx_image arrowdown = {
-        .bitmap = arrowdown_bm,
-        .height = 8,
-        .width = 5
-    };
     struct menu_field *field = &this->fields[0];
 
     gfx_set_scale(GFX_SCALE_X3);
     gfx_set_color(GFX_COLOR_GREEN, GFX_COLOR_BLACK);
-    gfx_draw_image(126, 27, &arrowup);
-    gfx_draw_image(126, 75, &arrowdown);
+    gfx_draw_image(126, 27, &img_arrowup);
+    gfx_draw_image(126, 75, &img_arrowdown);
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
     gfx_print_txt_f(18, 51, txt_night);
@@ -67,7 +73,7 @@ struct menu night_menu = {
     .labels = (const char *[]) {txt_night},
     .io = NULL,
     .on_entrance = mainmenu_entrance_cb,
-    .on_value_change = mainmenu_value_change_cb,
+    .on_value_change = nightmenu_value_change_cb,
     .on_cursor_move = NULL,
     .on_exit_next = nightmenu_exit_next_cb,
     .on_exit_prev = nightmenu_exit_prev_cb,

@@ -9,4 +9,6 @@
 // Max nights allowed:
 #define NIGHTS_MAX  5
 
+#define NUM_OF_ENTITIES 5
+
 #endif // _CORE_INFO_H

@@ -115,7 +115,7 @@ void transit(void)
 {
     switch (state) {
         case STATE_MENU:
-            if (gin.request == GR_NEW_GAME) {
+            if (gin.request == GR_NEW_GAME && gin.night_no) {
                 scene_enter(&dialog_scene);
                 state = STATE_DIALOG;
             } else {

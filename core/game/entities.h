@@ -2,6 +2,7 @@
 #define _CORE_GAME_ENTITIES_H
 
 #include <stdint.h>
+#include <config.h>
 
 typedef enum __attribute__((packed)) {
     NO_ENTITY = 0,
@@ -13,7 +14,6 @@ typedef enum __attribute__((packed)) {
     ENTITY_PLTLAMP,
     ENTITY_PLTCAM,
 
-    NUM_OF_ENTITIES = ENTITY_PLTCAM
 } entity_id;
 
 void entity_setup(entity_id entity, uint8_t activity_lvl);
