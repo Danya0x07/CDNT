@@ -105,7 +105,7 @@ void movealg_classic_move(entity_id entity)
 
     if (activity->lvl >= randnum(MAX_ACTIVITY_LVL)) { 
         struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
-        struct cpn_possessivity *possessivity = component_get(entity, COMPONENT_POSSESSIVITY);
+        uint8_t possessivity_lvl = (activity->lvl - 1) / 4;
 
         switch (slot->type) {
             case SLOT_NONE:
@@ -113,7 +113,7 @@ void movealg_classic_move(entity_id entity)
                 break;
 
             case SLOT_DRAWING:
-                if (possessivity->lvl >= randnum(MAX_POSSESSIVILITY_LVL)) {
+                if (possessivity_lvl >= randnum(MAX_POSSESSIVILITY_LVL)) {
                     if (possess_closest_lamp(entity))
                         break;
                 }

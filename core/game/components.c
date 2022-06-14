@@ -3,7 +3,6 @@
 #include <avr/pgmspace.h>
 
 static struct cpn_activity activities[5];
-static struct cpn_possessivity posessivities[1];
 static struct cpn_view views[3] = {
     {.visibility = VISIBILITY_W, .color = DCOLOR_YELLOW},
     {.visibility = VISIBILITY_UV, .color = DCOLOR_BLUE},
@@ -15,7 +14,6 @@ static struct cpn_readiness readinesses[1];
 
 static void *const cpns_blocks[NUM_OF_COMPONENTS] = {
     [COMPONENT_ACTIVITY] = activities,
-    [COMPONENT_POSSESSIVITY] = posessivities,
     [COMPONENT_VIEW] = views,
     [COMPONENT_SLOT] = slots,
     [COMPONENT_ROUTE] = routes,
@@ -26,7 +24,6 @@ static const PROGMEM uint8_t cpns_idxs[1 + NUM_OF_ENTITIES][NUM_OF_COMPONENTS] =
     [NO_ENTITY] = {0},
     [ENTITY_YELLOW] = {
         [COMPONENT_ACTIVITY] = 1,
-        [COMPONENT_POSSESSIVITY] = 1,
         [COMPONENT_VIEW] = 1,
         [COMPONENT_SLOT] = 1,
         [COMPONENT_ROUTE] = 1,
@@ -56,7 +53,6 @@ static const PROGMEM uint8_t cpns_idxs[1 + NUM_OF_ENTITIES][NUM_OF_COMPONENTS] =
 
 static const PROGMEM uint8_t cpns_sizes[NUM_OF_COMPONENTS] = {
     [COMPONENT_ACTIVITY] = sizeof(struct cpn_activity),
-    [COMPONENT_POSSESSIVITY] = sizeof(struct cpn_possessivity),
     [COMPONENT_VIEW] = sizeof(struct cpn_view),
     [COMPONENT_SLOT] = sizeof(struct cpn_slot),
     [COMPONENT_ROUTE] = sizeof(struct cpn_route),

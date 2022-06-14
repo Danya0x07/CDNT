@@ -8,7 +8,6 @@
 
 typedef enum __attribute__((packed)) {
     COMPONENT_ACTIVITY,
-    COMPONENT_POSSESSIVITY,
     COMPONENT_VIEW,
     COMPONENT_SLOT,
     COMPONENT_ROUTE,
@@ -17,10 +16,6 @@ typedef enum __attribute__((packed)) {
 } component_id;
 
 struct cpn_activity {
-    uint8_t lvl;
-};
-
-struct cpn_possessivity {
     uint8_t lvl;
 };
 
