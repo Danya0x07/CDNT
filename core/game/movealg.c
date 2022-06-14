@@ -3,6 +3,7 @@
 #include "movealg.h"
 #include "components.h"
 #include "randnum.h"
+#include "moves.h"
 
 static void start_drawings_route(entity_id entity)
 {
@@ -39,8 +40,8 @@ static bool possess_closest_lamp(entity_id entity)
     struct cpn_slot *slot = component_get(entity, COMPONENT_SLOT);
     enum room_lamp rls[2];
 
-    find_closest_lamps(slot->idx, rls);
-    uint8_t nfree = slots_filter_free(SLOT_LAMP, rls, 2);
+    uint8_t nfree = find_closest_lamps(slot->idx, rls);
+    nfree = slots_filter_free(SLOT_LAMP, rls, nfree);
 
     if (nfree) {
         slot_occupy(entity, SLOT_LAMP, rls[randidx(nfree)]);
@@ -161,9 +162,9 @@ void movealg_quick_move(entity_id entity, uint32_t *act_timeout)
             *act_timeout = ACTION_TIMEOUT_QUICK * QUICK_LAST_MOVE_TIMEOUT_MULTIPLIER;
     } else if (activity->lvl >= randnum(MAX_ACTIVITY_LVL)) {
         if (slot->type == SLOT_NONE) { 
-            start_drawings_route(entity);
-            *act_timeout = ACTION_TIMEOUT_RED;
-            readiness->degree = 0;
+            readiness->degree++;
+            if (readiness->degree == NUM_OF_QUICK_MOVE_PREPARE_DEGREES - 1)
+                start_drawings_route(entity);
         } else if (slot->type == SLOT_DRAWING) {
             readiness->degree++;
             if (readiness->degree >= NUM_OF_QUICK_MOVE_PREPARE_DEGREES)
@@ -191,7 +192,9 @@ void movealg_reset_route(entity_id entity)
     struct cpn_readiness *readiness = component_get(entity, COMPONENT_READINESS);
 
     if (readiness) {
+        // The Red ghost
         readiness->degree = 0;
+        tmev_red_move.timeout = ACTION_TIMEOUT_RED;
     }
     slot_release(entity);
 }
