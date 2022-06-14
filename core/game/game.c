@@ -10,9 +10,9 @@
 #include "setup.h"
 #include "view.h"
 #include "score.h"
+#include "pwr.h"
 
 uint8_t __hour = 12;
-uint8_t __pwr_consumption = 0;
 
 static bool pause_requested = false;
 static uint8_t night_no;
@@ -20,6 +20,10 @@ static uint8_t night_no;
 static bool night_completed(void);
 static bool night_failed(void);
 static void check_kicked_cam_possessors(void);
+static void check_power_consumption(uint32_t t);
+static void handle_player_request(struct player_request request, uint32_t t);
+static void check_timeout_events(uint32_t t);
+static bool powered(void);
 
 bool game_is_active(void)
 {
@@ -44,14 +48,77 @@ void game_enter(struct game_input *params)
     timeout_event_init(&tmev_pltlamp_move, params->moment);
     timeout_event_init(&tmev_pltcam_move, params->moment);
 
+    pwr_init();
+
     pause_requested = false;
 }
 
 void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
 {
-    // Process user events
     struct player_request request = request_get(jev, btnev, camera_get_no());
 
+    if (powered())
+        handle_player_request(request, t);
+
+    check_timeout_events(t);
+    check_kicked_cam_possessors();
+    check_power_consumption(t);
+
+    if (powered())
+        view_update_lights();
+}
+
+void game_get_results(struct game_output *results)
+{
+    if (pause_requested) {
+        results->status = GS_PAUSE;
+    } else if (night_completed()) {
+        results->status = GS_NIGHT_COMPLETED;
+    } else {
+        results->status = GS_NIGHT_FAILED;
+    }
+    results->night_no = night_no;
+    results->hour = __hour; // TODO: clock
+    results->score = score_get();
+}
+
+static bool night_completed(void)
+{
+    return false; // TODO: clock
+}
+
+static bool night_failed(void)
+{
+    return !slot_is_free(SLOT_DRAWING, DRAWING_RPM);
+}
+
+static void check_kicked_cam_possessors(void)
+{
+    for (enum ceiling c = CEILING1; c < NUM_OF_CEILINGS; c++) {
+        if (ceiling_get(c)) {
+            entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera)c);
+            if (entity) {
+                entity_kick_away(entity);
+            }
+        }
+    }
+}
+
+static void check_power_consumption(uint32_t t)
+{
+    pwr_update();
+    
+    if (pwr_consumption_exceeds() && !tmev_pwr_kill.active) {
+        timeout_event_init(&tmev_pwr_kill, t);
+    }
+
+    if (pwr_status_get() == PWR_OFF && !tmev_pwr_restore.active) {
+        timeout_event_init(&tmev_pwr_restore, t);
+    }
+}
+
+static void handle_player_request(struct player_request request, uint32_t t)
+{
     switch (request.type) {
         case PR_NOTHING: break;
         case PR_WFLASH_L:
@@ -117,8 +184,10 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
             pause_requested = true;
             break;
     }
+}
 
-    // Proces time-dependent events
+static void check_timeout_events(uint32_t t)
+{
     timeout_event_check(&tmev_flash_off, t);
     timeout_event_check(&tmev_lflash_recharge, t);
     timeout_event_check(&tmev_rflash_recharge, t);
@@ -129,45 +198,11 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
     timeout_event_check(&tmev_pltlamp_move, t);
     timeout_event_check(&tmev_pltcam_move, t);
 
-    // Process game data
-    check_kicked_cam_possessors();
-
-    // Update view
-    view_update_lights();
+    timeout_event_check(&tmev_pwr_kill, t);
+    timeout_event_check(&tmev_pwr_restore, t);
 }
 
-void game_get_results(struct game_output *results)
+static bool powered(void)
 {
-    if (pause_requested) {
-        results->status = GS_PAUSE;
-    } else if (night_completed()) {
-        results->status = GS_NIGHT_COMPLETED;
-    } else {
-        results->status = GS_NIGHT_FAILED;
-    }
-    results->night_no = night_no;
-    results->hour = __hour; // TODO: clock
-    results->score = score_get();
-}
-
-static bool night_completed(void)
-{
-    return false; // TODO: clock
-}
-
-static bool night_failed(void)
-{
-    return !slot_is_free(SLOT_DRAWING, DRAWING_RPM);
-}
-
-static void check_kicked_cam_possessors(void)
-{
-    for (enum ceiling c = CEILING1; c < NUM_OF_CEILINGS; c++) {
-        if (ceiling_get(c)) {
-            entity_id entity = slot_get_occupier(SLOT_CAM, (enum camera)c);
-            if (entity) {
-                entity_kick_away(entity);
-            }
-        }
-    }
+    return pwr_status_get() == PWR_ON;
 }

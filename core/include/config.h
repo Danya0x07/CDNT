@@ -25,4 +25,12 @@
 #define FLASH_LIGHTING_DURATION 300
 #define FLASH_RECHARGE_TIMEOUT  10000
 
+#define PWR_COST_IDLE   1
+#define PWR_COST_LAMP   1
+#define PWR_COST_TV     1
+#define PWR_COST_CEILING    3
+#define PWR_COST_FLASH  3
+#define PWR_KILL_DELAY  1000
+#define PWR_OFF_TIME    7000
+
 #endif // _CORE_CONFIG_H

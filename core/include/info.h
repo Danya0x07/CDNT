@@ -11,4 +11,6 @@
 
 #define NUM_OF_ENTITIES 5
 
+#define PWR_CONSUMPTION_MAX 6
+
 #endif // _CORE_INFO_H
