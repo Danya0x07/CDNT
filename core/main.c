@@ -103,6 +103,8 @@ void loop_game(void)
     enum joystick_event jev;
     uint8_t btnev;
 
+    gin.moment = ms_passed();
+
     while (game_is_active()) {
         jev = iev_poll_joystick();
         btnev = iev_poll_buttons();

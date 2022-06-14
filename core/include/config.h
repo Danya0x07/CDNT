@@ -33,4 +33,6 @@
 #define PWR_KILL_DELAY  1000
 #define PWR_OFF_TIME    7000
 
+#define CLOCK_TICK_PERIOD   30000
+
 #endif // _CORE_CONFIG_H

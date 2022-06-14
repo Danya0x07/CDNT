@@ -6,10 +6,12 @@
 // Supported languages
 #define LANG_RU    1
 
-// Max nights allowed:
+
 #define NIGHTS_MAX  5
 
 #define NUM_OF_ENTITIES 5
+
+#define NUM_OF_HOURS    6
 
 #define PWR_CONSUMPTION_MAX 6
 

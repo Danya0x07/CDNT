@@ -1,5 +1,4 @@
 #include "player.h"
-#include <serial.h>
 
 struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera cam)
 {

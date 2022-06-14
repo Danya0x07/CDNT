@@ -11,8 +11,7 @@
 #include "view.h"
 #include "score.h"
 #include "pwr.h"
-
-uint8_t __hour = 12;
+#include "clock.h"
 
 static bool pause_requested = false;
 static uint8_t night_no;
@@ -38,6 +37,7 @@ void game_enter(struct game_input *params)
         score_reset();
         ceilings_off();
         flashes_reset();
+        clock_reset();
         camera_select(CAMP);
         night_no = params->night_no;
     }
@@ -47,6 +47,7 @@ void game_enter(struct game_input *params)
     timeout_event_init(&tmev_red_move, params->moment);
     timeout_event_init(&tmev_pltlamp_move, params->moment);
     timeout_event_init(&tmev_pltcam_move, params->moment);
+    timeout_event_init(&tmev_clock, params->moment);
 
     pwr_init();
 
@@ -78,13 +79,13 @@ void game_get_results(struct game_output *results)
         results->status = GS_NIGHT_FAILED;
     }
     results->night_no = night_no;
-    results->hour = __hour; // TODO: clock
+    results->hour = clock_get();
     results->score = score_get();
 }
 
 static bool night_completed(void)
 {
-    return false; // TODO: clock
+    return clock_get() == NUM_OF_HOURS;
 }
 
 static bool night_failed(void)
@@ -191,6 +192,8 @@ static void check_timeout_events(uint32_t t)
     timeout_event_check(&tmev_flash_off, t);
     timeout_event_check(&tmev_lflash_recharge, t);
     timeout_event_check(&tmev_rflash_recharge, t);
+
+    timeout_event_check(&tmev_clock, t);
 
     timeout_event_check(&tmev_red_move, t);
     timeout_event_check(&tmev_yellow_move, t);
