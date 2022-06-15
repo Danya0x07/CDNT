@@ -1,8 +1,8 @@
-#include "setup.h"
-#include "entities.h"
+#include <avr/pgmspace.h>
 #include <config.h>
 
-#include <avr/pgmspace.h>
+#include "setup.h"
+#include "entities.h"
 
 static const PROGMEM uint8_t night_activities[NIGHTS_MAX][NUM_OF_ENTITIES] = {
     {2, 1, 0, 0, 0},

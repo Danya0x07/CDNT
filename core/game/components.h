@@ -2,6 +2,7 @@
 #define _CORE_GAME_COMPONENTS_H
 
 #include <house.h>
+
 #include "entities.h"
 #include "slots.h"
 #include "routes.h"

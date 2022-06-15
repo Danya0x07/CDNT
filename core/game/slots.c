@@ -1,6 +1,7 @@
+#include <house.h>
+
 #include "slots.h"
 #include "components.h"
-#include <house.h>
 
 static entity_id drawing_slots[NUM_OF_DRAWINGS] = {NO_ENTITY};
 static entity_id lamp_slots[NUM_OF_ROOM_LAMPS] = {NO_ENTITY};

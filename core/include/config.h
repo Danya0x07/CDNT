@@ -5,7 +5,7 @@
 
 #include <info.h>
 
-#define LANGUAGE    LANG_EN
+#define LANGUAGE    LANG_RU
 
 // Spirits parameters.
 #define ACTION_TIMEOUT_YELLOW   5500

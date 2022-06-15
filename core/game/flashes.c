@@ -1,4 +1,5 @@
 #include <config.h>
+
 #include "flashes.h"
 #include "entities.h"
 #include "components.h"

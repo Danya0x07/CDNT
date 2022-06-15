@@ -1,7 +1,8 @@
 #include <stddef.h>
+#include <config.h>
+
 #include "moves.h"
 #include "entities.h"
-#include <config.h>
 
 static void yellow_move_cb(void);
 static void red_move_cb(void);

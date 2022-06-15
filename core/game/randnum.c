@@ -1,5 +1,6 @@
-#include "randnum.h"
 #include <stdlib.h>
+
+#include "randnum.h"
 
 uint8_t randidx(uint8_t n)
 {

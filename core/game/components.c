@@ -1,6 +1,6 @@
-#include "components.h"
-
 #include <avr/pgmspace.h>
+
+#include "components.h"
 
 static struct cpn_activity activities[5];
 static struct cpn_view views[3] = {

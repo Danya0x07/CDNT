@@ -1,3 +1,8 @@
+#include <house.h>
+#include <config.h>
+#include <music.h>
+#include <tracks.h>
+
 #include "pwr.h"
 #include "slots.h"
 #include "ceilings.h"
@@ -5,10 +10,6 @@
 #include "entities.h"
 #include "camera.h"
 #include "view.h"
-#include <house.h>
-#include <config.h>
-#include <music.h>
-#include <tracks.h>
 
 static uint8_t consumption;
 static enum pwr_status status = PWR_ON;

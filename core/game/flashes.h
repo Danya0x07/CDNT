@@ -2,6 +2,7 @@
 #define _CORE_GAME_FLASHES_H
 
 #include <house.h>
+
 #include "tmev.h"
 
 void flashes_reset(void);

@@ -2,6 +2,7 @@
 #include <config.h>
 #include <music.h>
 #include <tracks.h>
+
 #include "player.h"
 #include "entities.h"
 #include "slots.h"

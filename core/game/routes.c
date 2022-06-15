@@ -1,6 +1,6 @@
-#include "routes.h"
-
 #include <avr/pgmspace.h>
+
+#include "routes.h"
 
 static const PROGMEM enum drawing route_1l_l[NUM_OF_DRAWINGS] = {
     [DRAWING_R1L] = DRAWING_R3R,

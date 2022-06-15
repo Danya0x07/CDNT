@@ -1,9 +1,10 @@
-#include "view.h"
 #include <string.h>
 #include <house.h>
 #include <graphics.h>
 #include <txt.h>
 #include <img.h>
+
+#include "view.h"
 #include "slots.h"
 #include "entities.h"
 #include "components.h"

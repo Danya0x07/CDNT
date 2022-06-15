@@ -1,8 +1,9 @@
+#include <config.h>
+#include <avr/pgmspace.h>
+
 #include "clock.h"
 #include "entities.h"
 #include "components.h"
-#include <config.h>
-#include <avr/pgmspace.h>
 
 static uint8_t hour;
 

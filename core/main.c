@@ -1,3 +1,8 @@
+/*
+ *  Copyright (C) 2022 Daniel Efimenko
+ *      github.com/Danya0x07
+ */
+
 #include <init.h>
 #include <menus.h>
 #include <scenes.h>
@@ -46,7 +51,7 @@ int main(void)
     setup();
 
     scene_enter(&intro_scene);
-    //loop_timeout_scene(650);
+    loop_timeout_scene(500);
 
     menu_enter(&main_menu);
 
@@ -103,8 +108,6 @@ void loop_game(void)
     enum joystick_event jev;
     uint8_t btnev;
 
-    gin.moment = ms_passed();
-
     while (game_is_active()) {
         jev = iev_poll_joystick();
         btnev = iev_poll_buttons();
@@ -121,12 +124,14 @@ void transit(void)
                 scene_enter(&dialog_scene);
                 state = STATE_DIALOG;
             } else {
+                gin.moment = ms_passed();
                 game_enter(&gin);
                 state = STATE_PLAYING;
             }
             break;
         
         case STATE_DIALOG:
+            gin.moment = ms_passed();
             game_enter(&gin);
             state = STATE_PLAYING;
             break;

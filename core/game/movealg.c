@@ -1,5 +1,6 @@
 #include <config.h>
 #include <house.h>
+
 #include "movealg.h"
 #include "components.h"
 #include "randnum.h"

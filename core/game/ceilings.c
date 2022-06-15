@@ -1,7 +1,8 @@
-#include "ceilings.h"
 #include <string.h>
 #include <music.h>
 #include <tracks.h>
+
+#include "ceilings.h"
 
 static bool ceilings_statuses[NUM_OF_CEILINGS] = {OFF};
 

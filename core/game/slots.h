@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+
 #include "entities.h"
 
 enum __attribute__((packed)) slot_type {
