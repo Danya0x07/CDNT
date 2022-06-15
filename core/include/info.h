@@ -13,6 +13,9 @@
 
 #define NUM_OF_HOURS    6
 
+#define MAX_ACTIVITY_LVL    20
+#define MAX_POSSESSIVILITY_LVL  (MAX_ACTIVITY_LVL / 2)
+
 #define PWR_CONSUMPTION_MAX 6
 
 #endif // _CORE_INFO_H

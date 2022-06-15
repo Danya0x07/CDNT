@@ -5,11 +5,11 @@
 #include <avr/pgmspace.h>
 
 static const PROGMEM uint8_t night_activities[NIGHTS_MAX][NUM_OF_ENTITIES] = {
-    {0, 0, 0, 0, 20},
+    {2, 1, 0, 0, 0},
     {4, 3, 2, 0, 0},
-    {0, 0, 0, 20, 0},
-    {8, 7, 9, 6, 8},
-    {10, 9, 14, 10, 12}
+    {6, 5, 4, 4, 3},
+    {8, 7, 6, 8, 7},
+    {10, 9, 8, 12, 11}
 };
 
 uint8_t custom_activities[NUM_OF_ENTITIES];
