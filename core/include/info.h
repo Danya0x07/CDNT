@@ -4,7 +4,8 @@
 #define VERSION "0.8"
 
 // Supported languages
-#define LANG_RU    1
+#define LANG_RU 1
+#define LANG_EN 2
 
 
 #define NIGHTS_MAX  5
