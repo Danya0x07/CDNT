@@ -4,6 +4,7 @@
 #include "flashes.h"
 #include "entities.h"
 #include "camera.h"
+#include "view.h"
 #include <house.h>
 #include <config.h>
 
@@ -66,12 +67,14 @@ static void kill_power(void)
     for (enum room_lamp l = _RL_FIRST; l < NUM_OF_ROOM_LAMPS; l++)
         entity_kick_away(slot_get_occupier(SLOT_LAMP, l));
     
+    view_show_nopower();
     status = PWR_OFF;
 }
 
 static void restore_power(void)
 {
     camera_select(CAMP);
+    view_init_screen();
     status = PWR_ON;
 }
 

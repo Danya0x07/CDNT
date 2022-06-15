@@ -10,6 +10,7 @@ const PROGMEM char txt_gameover_cmt[] = "x_x";
 const PROGMEM char txt_victory_cmt[] = "^_^";
 const PROGMEM char txt_custom_night[] = "Custom night";
 const PROGMEM char txt_setup[] = "setup";
+const PROGMEM char txt_cam[] = "CAM";
 
 const PROGMEM char txt_play[] = "Играть";
 const PROGMEM char txt_instructions[] = "Инструкция";
@@ -21,6 +22,7 @@ const PROGMEM char txt_hours[] = "Час:";
 const PROGMEM char txt_attacks[] = "Очки:";
 const PROGMEM char txt_night_failed[] = "Ночь\nпровалена!";
 const PROGMEM char txt_night_completed[] = "Ночь\nпройдена!";
+const PROGMEM char txt_nopower[] = "Нет\nэнергии";
 
 static const PROGMEM char _instructions_p1[] = 
 //  |                          |    26 characters of size 1 per display line

@@ -12,6 +12,7 @@ extern const char txt_gameover_cmt[];
 extern const char txt_victory_cmt[];
 extern const char txt_custom_night[];
 extern const char txt_setup[];
+extern const char txt_cam[];
 
 // Language-dependent text labels.
 extern const char txt_play[];
@@ -24,6 +25,7 @@ extern const char txt_hours[];
 extern const char txt_attacks[];
 extern const char txt_night_failed[];
 extern const char txt_night_completed[];
+extern const char txt_nopower[];
 
 // Text labels groups.
 extern const char *const txts_instructions[];

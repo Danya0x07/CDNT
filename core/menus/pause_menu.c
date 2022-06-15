@@ -30,6 +30,7 @@ void pausemenu_view_init_cb(struct menu *this)
     struct game_output *go = this->io;
 
     gfx_set_color(GFX_COLOR_WHITE, GFX_COLOR_BLACK);
+    gfx_clear();
     gfx_set_scale(GFX_SCALE_X3);
     gfx_print_txt_f(35, 0, txt_pause);
 

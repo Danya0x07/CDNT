@@ -39,6 +39,7 @@ void game_enter(struct game_input *params)
         flashes_reset();
         clock_reset();
         camera_select(CAMP);
+        view_reset_screen();
         night_no = params->night_no;
     }
     
@@ -50,6 +51,7 @@ void game_enter(struct game_input *params)
     timeout_event_init(&tmev_clock, params->moment);
 
     pwr_init();
+    view_init_screen();
 
     pause_requested = false;
 }
@@ -65,8 +67,10 @@ void game_tick(enum joystick_event jev, uint8_t btnev, uint32_t t)
     check_kicked_cam_possessors();
     check_power_consumption(t);
 
-    if (powered())
+    if (powered()) {
+        view_update_screen();
         view_update_lights();
+    }
 }
 
 void game_get_results(struct game_output *results)
