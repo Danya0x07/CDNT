@@ -1,5 +1,7 @@
 #include <game.h>
 #include <config.h>
+#include <music.h>
+#include <tracks.h>
 #include "player.h"
 #include "entities.h"
 #include "slots.h"
@@ -130,6 +132,7 @@ static void handle_player_request(struct player_request request, uint32_t t)
             if (flash_shoot(FLASH_L, FLASH_MODE_W)) {
                 timeout_event_init(&tmev_flash_off, t);
                 timeout_event_init(&tmev_lflash_recharge, t);
+                music_start(&track_flash);
             }
             break;
 
@@ -137,6 +140,7 @@ static void handle_player_request(struct player_request request, uint32_t t)
             if (flash_shoot(FLASH_R, FLASH_MODE_W)) {
                 timeout_event_init(&tmev_flash_off, t);
                 timeout_event_init(&tmev_rflash_recharge, t);
+                music_start(&track_flash);
             }
             break;
         
@@ -147,6 +151,7 @@ static void handle_player_request(struct player_request request, uint32_t t)
                     timeout_event_init(&tmev_flash_off, t);
                     timeout_event_init(flash == FLASH_L ? 
                         &tmev_lflash_recharge : &tmev_rflash_recharge, t);
+                    music_start(&track_flash);
                 }
             }
             break;
@@ -160,6 +165,7 @@ static void handle_player_request(struct player_request request, uint32_t t)
                 entity_id entity = slot_get_occupier(SLOT_LAMP, request.lamp);
                 if (entity) {
                     entity_kick_away(entity);
+                    music_start(&track_lamp_off);
                 }
             }
             break;
@@ -169,24 +175,38 @@ static void handle_player_request(struct player_request request, uint32_t t)
                 entity_id entity = slot_get_occupier(SLOT_TV, 0);
                 if (entity) {
                     entity_kick_away(entity);
+                    music_start(&track_lamp_off);
                 }
             }
             break;
         
         case PR_SELECT_CAM:
             camera_select(request.cam);
+            if (slot_is_free(SLOT_CAM, request.cam))
+                music_start(&track_cam_switch);
+            else
+                music_start(&track_cam_nosignal);
             break;
         
         case PR_UV_ON:
             camera_enable_uv();
+            if (slot_is_free(SLOT_CAM, camera_get_no()))
+                music_start(&track_cam_uv_switch);
+            else
+                music_start(&track_cam_nosignal);
             break;
         
         case PR_UV_OFF:
             camera_disable_uv();
+            if (slot_is_free(SLOT_CAM, camera_get_no()))
+                music_start(&track_cam_uv_switch);
+            else
+                music_start(&track_cam_nosignal);
             break;
         
         case PR_PAUSE:
             pause_requested = true;
+            music_start(&track_pause);
             break;
     }
 }

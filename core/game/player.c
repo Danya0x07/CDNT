@@ -2,6 +2,7 @@
 
 struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum camera cam)
 {
+    static bool uv = false;
     struct player_request pr = {.type = PR_NOTHING};
     uint8_t btn_pressed = PRESSED_BUTTON(btnev);
     uint8_t btn_released = RELEASED_BUTTON(btnev);
@@ -10,13 +11,15 @@ struct player_request request_get(enum joystick_event jev, uint8_t btnev, enum c
         pr.cam = btn_pressed - 1;
         if (pr.cam == cam) {
             pr.type = PR_UV_ON;
+            uv = true;
         } else {
             pr.type = PR_SELECT_CAM;
         }
     } else if (btn_released) {
         pr.cam = btn_released - 1;
-        if (pr.cam == cam) {
+        if (pr.cam == cam && uv) {
             pr.type = PR_UV_OFF;
+            uv = false;
         }
     }
 

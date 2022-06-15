@@ -85,9 +85,6 @@ DEFINE_TRACK(irc_typing,
     {400, 150}, {0, 50},
     {400, 70});
 DEFINE_TRACK(cam_nosignal, {100, 700});
-DEFINE_TRACK(screamer1, {1000, 200}, {950, 200}, {1000, 200}, {950, 200}, {1000, 200}, {950, 200});
-DEFINE_TRACK(screamer2, {1600, 200}, {1550, 200}, {1600, 200}, {1550, 200}, {1600, 200}, {1500, 200});
-DEFINE_TRACK(screamer3, {400, 200}, {380, 200}, {400, 200}, {380, 200}, {400, 200}, {380, 200});
 DEFINE_TRACK(_melody, 
     {NOTE_C6, 200}, {NOTE_C6, 200},
     {NOTE_G5, 200}, {NOTE_C6, 200}, {NOTE_E6, 400},

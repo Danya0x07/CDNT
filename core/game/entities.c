@@ -11,7 +11,7 @@ void entity_setup(entity_id entity, uint8_t activity_lvl)
 }
 
 void entity_move(entity_id entity, void *arg)
-{
+{    
     switch (entity) {
         case ENTITY_YELLOW:
             movealg_classic_move(ENTITY_YELLOW);

@@ -1,5 +1,7 @@
 #include "ceilings.h"
 #include <string.h>
+#include <music.h>
+#include <tracks.h>
 
 static bool ceilings_statuses[NUM_OF_CEILINGS] = {OFF};
 
@@ -16,6 +18,7 @@ bool ceiling_get(enum ceiling ceiling)
 void ceiling_toggle(enum ceiling ceiling)
 {
     ceilings_statuses[ceiling] = !ceilings_statuses[ceiling];
+    music_start(ceiling_get(ceiling) ? &track_lamps_on: &track_lamps_off);
 }
 
 void ceilings_off(void)

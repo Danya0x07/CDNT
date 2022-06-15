@@ -21,14 +21,10 @@ DECLARE_TRACK(lamps_on);
 DECLARE_TRACK(lamps_off);
 DECLARE_TRACK(irc_typing);
 DECLARE_TRACK(cam_nosignal);
-DECLARE_TRACK(screamer1);
-DECLARE_TRACK(screamer2);
-DECLARE_TRACK(screamer3);
 
 // Some tracks use same notes.
 #define track_pause         track_screen_transit
-#define track_continue      track_screen_transit
-#define track_option_move   track_value_change
 #define track_power_on      track_intro
+#define track_lamp_off      track_cam_switch
 
 #endif // _CORE_TRACKS_H

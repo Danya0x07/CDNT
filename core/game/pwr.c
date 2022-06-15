@@ -7,6 +7,8 @@
 #include "view.h"
 #include <house.h>
 #include <config.h>
+#include <music.h>
+#include <tracks.h>
 
 static uint8_t consumption;
 static enum pwr_status status = PWR_ON;
@@ -66,7 +68,7 @@ static void kill_power(void)
     entity_kick_away(slot_get_occupier(SLOT_TV, 0));
     for (enum room_lamp l = _RL_FIRST; l < NUM_OF_ROOM_LAMPS; l++)
         entity_kick_away(slot_get_occupier(SLOT_LAMP, l));
-    
+    music_start(&track_power_off);
     view_show_nopower();
     status = PWR_OFF;
 }
@@ -74,6 +76,7 @@ static void kill_power(void)
 static void restore_power(void)
 {
     camera_select(CAMP);
+    music_start(&track_power_on);
     view_init_screen();
     status = PWR_ON;
 }
