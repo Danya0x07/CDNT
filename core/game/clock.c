@@ -36,7 +36,7 @@ static void tick(void)
     for (entity_id e = _ENTITY_FIRST; e < NUM_OF_ENTITIES; e++) {
         activity = component_get(e, COMPONENT_ACTIVITY);
         if (activity->lvl != 0) {
-            activity->lvl += pgm_read_byte(&activity_increments[idx][e]);
+            activity->lvl += pgm_read_byte(&activity_increments[idx][e - 1]);
             if (activity->lvl > MAX_ACTIVITY_LVL)
                 activity->lvl = MAX_ACTIVITY_LVL;
         }
